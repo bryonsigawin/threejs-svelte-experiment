@@ -11,30 +11,178 @@
 	import 'modern-normalize';
 	import '../styles.css';
 
+	import anime from 'animejs';
+	import { onMount } from 'svelte';
+
 	import windowImage from '$lib/images/window-temp.png';
+	import { mapRange } from '$lib/utils/maths';
+
+	const lerp = (a, b, n) => (1 - n) * a + n * b;
+
+	let entryComplete = false;
+
+	let mouseVelocity = { x: 0, y: 0 };
+	let mouseCurrent = { x: -1, y: -1 };
+	let mouseTo = { x: 0, y: 0 };
+	let cursorScale = 0;
+
+	let parallaxShift = { x: 0, y: 0 };
+
+	onMount(() => {
+		window.addEventListener('mousemove', (e) => {
+			/** set the initial position of the cursor */
+			if (mouseCurrent.x === -1 && mouseCurrent.y === -1) {
+				mouseCurrent.x = e.clientX;
+				mouseCurrent.y = e.clientY;
+			}
+
+			mouseTo.x = e.clientX;
+			mouseTo.y = e.clientY;
+			mouseTo = mouseTo;
+		});
+
+		// window.addEventListener('click', () => {
+		// 	if (!entryComplete) return;
+		// 	cursorScale = 0.2;
+		// });
+
+		let raf = requestAnimationFrame(function animate() {
+			if (mouseCurrent.x !== -1 && mouseCurrent.y !== -1) {
+				/** bring into view the cursor */
+				if (cursorScale < 1 && entryComplete) {
+					cursorScale = lerp(cursorScale, 1, 0.05).toFixed(2);
+				}
+
+				const newMouseX = lerp(mouseCurrent.x, mouseTo.x, 0.2).toFixed(2);
+				const newMouseY = lerp(mouseCurrent.y, mouseTo.y, 0.2).toFixed(2);
+
+				mouseVelocity.x = Math.abs(mouseCurrent.x - newMouseX).toFixed(2);
+				mouseVelocity.y = Math.abs(mouseCurrent.y - newMouseY).toFixed(2);
+
+				mouseCurrent.x = newMouseX;
+				mouseCurrent.y = newMouseY;
+
+				parallaxShift.x = mapRange(0, window.innerWidth, mouseCurrent.x, -20, 20);
+				parallaxShift.y = mapRange(0, window.innerHeight, mouseCurrent.y, -10, 10);
+			}
+
+			requestAnimationFrame(animate);
+		});
+
+		const timeline = anime.timeline();
+
+		timeline
+			.add({
+				targets: '.layout',
+				translateX: ['-50vw', 0],
+				duration: 3500,
+				easing: 'easeInOutQuint',
+				complete: () => {
+					entryComplete = true;
+				}
+			})
+			.add(
+				{
+					targets: '.job-title span, .my-name span',
+					translateY: ['100%', 0],
+					duration: 1200,
+					delay: anime.stagger(120),
+					easing: 'easeInOutQuint'
+				},
+				3000
+			)
+			.add(
+				{
+					targets: '.page-links',
+					opacity: [0, 1],
+					duration: 1000,
+					delay: anime.stagger(80),
+					easing: 'linear'
+				},
+				3500
+			);
+	});
 </script>
 
-<div class="layout">
-	<div class="window">
-		<img src={windowImage} alt="window lol" />
+<!-- <div class="debug-box">
+	{mouseCurrent.x}
+	{JSON.stringify(mouseCurrent)}
+</div> -->
+
+<div class="frame" class:freeze={!entryComplete}>
+	<div class="parallax" style="--shift-x: {parallaxShift.x}px; --shift-y: {parallaxShift.y}px">
+		<div class="layout">
+			<div class="window">
+				<img src={windowImage} alt="window lol" />
+			</div>
+			<main>
+				<div>
+					<h1 class="job-title">
+						<span>front-end</span> <span>developer</span>
+					</h1>
+					<h2 class="my-name">
+						<span>bryon</span> <span>sigawin</span>
+					</h2>
+				</div>
+				<div class="page-links">
+					<a class="page-link" href="/">about</a>
+					<a class="page-link" href="/">resume</a>
+					<a class="page-link" href="/">linkedin</a>
+					<a class="page-link" href="/">github</a>
+				</div>
+			</main>
+		</div>
 	</div>
-
-	<main>
-		<div>
-			<h1 class="job-title">front-end developer</h1>
-			<h2 class="my-name">bryon sigawin</h2>
-		</div>
-
-		<div class="page-links">
-			<a class="page-link" href="/">about</a>
-			<a class="page-link" href="/">resume</a>
-			<a class="page-link" href="/">linkedin</a>
-			<a class="page-link" href="/">github</a>
-		</div>
-	</main>
 </div>
 
+<div
+	class="circle"
+	style="--shift-x: {mouseCurrent.x}px; --shift-y: {mouseCurrent.y}px; --scale: {cursorScale}"
+/>
+
 <style>
+	.circle {
+		position: fixed;
+		top: 0;
+		left: 0;
+
+		width: 15px;
+		height: 15px;
+
+		border-radius: 50%;
+		background-color: white;
+
+		pointer-events: none;
+
+		transform: translate(calc(var(--shift-x) - 50%), calc(var(--shift-y) - 50%)) scale(var(--scale));
+	}
+
+	.debug-box {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		z-index: 10;
+
+		transform: translateX(-50%, -50%);
+
+		font-size: 48px;
+	}
+
+	.freeze {
+		width: 100vw;
+		height: 100vh;
+
+		overflow: hidden;
+	}
+
+	.freeze .layout {
+		overflow: unset !important;
+	}
+
+	.parallax {
+		/* transform: translate(var(--shift-x), var(--shift-y)); */
+	}
+
 	.layout {
 		position: relative;
 
@@ -44,22 +192,33 @@
 		gap: 5rem;
 
 		min-height: 100vh;
+		/* overflow: hidden; */
 	}
 
-	.layout::before {
+	.layout::before,
+	.layout::after {
 		content: '';
 
 		position: absolute;
+		z-index: -1;
 		top: 0;
 		left: 0;
 
-		width: 100%;
+		width: 160%;
 		height: 100%;
+	}
 
+	.layout::before {
+		background-color: #183a6a;
+	}
+
+	.layout::after {
 		background-image: url('$lib/images/wall-texture.jpg');
 		background-size: 50%;
-		opacity: 0.2;
+
+		background-color: #183a6a;
 		mix-blend-mode: overlay;
+		opacity: 0.1;
 	}
 
 	.window {
@@ -79,36 +238,45 @@
 		flex-direction: column;
 		justify-content: space-between;
 
-		margin-top: 10rem;
+		margin-top: 17.5rem;
 		gap: 10rem;
 	}
 
 	.job-title {
-		font-size: 3.5rem;
+		font-size: 4rem;
 		font-weight: 300;
 		letter-spacing: -3px;
+		font-style: italic;
 
 		margin: 0;
+
+		overflow: hidden;
 	}
 
 	.my-name {
-		font-size: 1.5rem;
+		font-size: 1.25rem;
 		font-weight: 200;
 
 		margin: 0;
+		overflow: hidden;
 	}
 
 	.page-links {
 		display: flex;
 		flex-direction: column;
-		gap: 0.125rem;
+		gap: 0.25rem;
+	}
+
+	.job-title span,
+	.my-name span {
+		display: inline-block;
 	}
 
 	.page-link {
 		font-size: 0.95rem;
 		font-weight: 200;
 
-		color: white;
+		color: rgb(219, 219, 219);
 		text-decoration: none;
 	}
 </style>

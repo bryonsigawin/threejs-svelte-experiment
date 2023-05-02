@@ -4,10 +4,9 @@
 
 body {
   font-family: 'Spectral', serif;
-
-  background-color: #183A6A;
   color: white;
-}
+  user-select: none;
+  }
 
 /**
   Lenis specific styles
