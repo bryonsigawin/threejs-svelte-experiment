@@ -15,13 +15,10 @@
 	import { onMount } from 'svelte';
 
 	import windowImage from '$lib/images/window-temp.png';
-	import { mapRange } from '$lib/utils/maths';
-
-	const lerp = (a, b, n) => (1 - n) * a + n * b;
+	import { mapRange, lerp } from '$lib/utils/maths';
 
 	let entryComplete = false;
 
-	let mouseVelocity = { x: 0, y: 0 };
 	let mouseCurrent = { x: -1, y: -1 };
 	let mouseTo = { x: 0, y: 0 };
 	let cursorScale = 0;
@@ -41,11 +38,6 @@
 			mouseTo = mouseTo;
 		});
 
-		// window.addEventListener('click', () => {
-		// 	if (!entryComplete) return;
-		// 	cursorScale = 0.2;
-		// });
-
 		let raf = requestAnimationFrame(function animate() {
 			if (mouseCurrent.x !== -1 && mouseCurrent.y !== -1) {
 				/** bring into view the cursor */
@@ -53,14 +45,8 @@
 					cursorScale = lerp(cursorScale, 1, 0.05).toFixed(2);
 				}
 
-				const newMouseX = lerp(mouseCurrent.x, mouseTo.x, 0.2).toFixed(2);
-				const newMouseY = lerp(mouseCurrent.y, mouseTo.y, 0.2).toFixed(2);
-
-				mouseVelocity.x = Math.abs(mouseCurrent.x - newMouseX).toFixed(2);
-				mouseVelocity.y = Math.abs(mouseCurrent.y - newMouseY).toFixed(2);
-
-				mouseCurrent.x = newMouseX;
-				mouseCurrent.y = newMouseY;
+				mouseCurrent.x = lerp(mouseCurrent.x, mouseTo.x, 0.4).toFixed(2);
+				mouseCurrent.y = lerp(mouseCurrent.y, mouseTo.y, 0.4).toFixed(2);
 
 				parallaxShift.x = mapRange(0, window.innerWidth, mouseCurrent.x, -20, 20);
 				parallaxShift.y = mapRange(0, window.innerHeight, mouseCurrent.y, -10, 10);
@@ -83,13 +69,23 @@
 			})
 			.add(
 				{
-					targets: '.job-title span, .my-name span',
+					targets: '.job-title span',
 					translateY: ['100%', 0],
 					duration: 1200,
 					delay: anime.stagger(120),
 					easing: 'easeInOutQuint'
 				},
 				3000
+			)
+			.add(
+				{
+					targets: '.my-name span',
+					translateY: ['100%', 0],
+					duration: 1200,
+					delay: anime.stagger(80),
+					easing: 'easeInOutQuint'
+				},
+				3200
 			)
 			.add(
 				{
@@ -118,10 +114,21 @@
 			<main>
 				<div>
 					<h1 class="job-title">
-						<span>front-end</span> <span>developer</span>
+						<span>Hey there!</span>
+						<span>I'm</span>
+						<span>Bryon</span>
+						<span>Sigawin</span>
 					</h1>
 					<h2 class="my-name">
-						<span>bryon</span> <span>sigawin</span>
+						<span>front-end developer </span>
+						<span>with </span>
+						<span>a </span>
+						<span>penchant </span>
+						<span>for </span>
+						<span>ux </span>
+						<span>and </span>
+						<span>motion </span>
+						<span>design.</span>
 					</h2>
 				</div>
 				<div class="page-links">
@@ -192,7 +199,7 @@
 		gap: 5rem;
 
 		min-height: 100vh;
-		/* overflow: hidden; */
+		overflow: hidden;
 	}
 
 	.layout::before,
@@ -238,8 +245,10 @@
 		flex-direction: column;
 		justify-content: space-between;
 
-		margin-top: 17.5rem;
 		gap: 10rem;
+
+		margin-top: auto;
+		margin-bottom: 10vh;
 	}
 
 	.job-title {
@@ -263,8 +272,7 @@
 
 	.page-links {
 		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
+		gap: 2rem;
 	}
 
 	.job-title span,

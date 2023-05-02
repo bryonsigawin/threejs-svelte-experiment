@@ -5,3 +5,5 @@ export function mapRange(in_min, in_max, input, out_min, out_max) {
 export function clamp(min, input, max) {
 	return Math.max(min, Math.min(input, max));
 }
+
+export const lerp = (a, b, n) => (1 - n) * a + n * b;
