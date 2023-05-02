@@ -11,92 +11,104 @@
 	import 'modern-normalize';
 	import '../styles.css';
 
-	import { onMount } from 'svelte';
-	import anime from 'animejs';
-
-	import { smoothScroll } from '$lib/stores/scroll';
-
-	import Window from '$lib/components/window.svelte';
-
-	let animatedValue = { value: 0 };
-	let windowProgress = 0;
-	let entryDone = false;
-
-	onMount(() => {
-		const animeTimeline = anime.timeline();
-
-		animeTimeline
-			.add({
-				targets: '.content',
-				easing: 'easeOutQuint',
-				duration: 2500,
-				translateY: ['30vh', 0]
-			})
-			.add({
-				targets: animatedValue,
-				value: 1,
-				easing: 'easeInOutQuart',
-				duration: 1200,
-				update: () => {
-					windowProgress = animatedValue.value;
-				},
-				complete: () => {
-					entryDone = true;
-				}
-			});
-	});
+	import windowImage from '$lib/images/window-temp.png';
 </script>
 
-<div class={entryDone ? '' : 'freeze-page'}>
-	<main class="content" style="--progress: {windowProgress}">
-		<Window --progress={windowProgress} />
-		<div>a</div>
-		<div>a</div>
+<div class="layout">
+	<div class="window">
+		<img src={windowImage} alt="window lol" />
+	</div>
+
+	<main>
+		<div>
+			<h1 class="job-title">front-end developer</h1>
+			<h2 class="my-name">bryon sigawin</h2>
+		</div>
+
+		<div class="page-links">
+			<a class="page-link" href="/">about</a>
+			<a class="page-link" href="/">resume</a>
+			<a class="page-link" href="/">linkedin</a>
+			<a class="page-link" href="/">github</a>
+		</div>
 	</main>
 </div>
 
 <style>
-	:global(.freeze-page) {
-		width: 100vw;
-		height: 100vh;
-
-		overflow: hidden;
-	}
-
-	:global(.freeze-page main) {
-		width: 100vw;
-		height: 100vh;
-
-		overflow: unset !important;
-	}
-
-	main {
+	.layout {
 		position: relative;
-		min-height: 100vh;
 
-		overflow: hidden;
+		display: grid;
+		grid-template-columns: 40vw 1fr;
+		align-items: center;
+		gap: 5rem;
+
+		min-height: 100vh;
 	}
 
-	main::before {
+	.layout::before {
 		content: '';
 
 		position: absolute;
-		top: 50%;
-		left: 50%;
+		top: 0;
+		left: 0;
 
-		width: 200%;
-		height: 200%;
+		width: 100%;
+		height: 100%;
 
 		background-image: url('$lib/images/wall-texture.jpg');
-		background-size: 25%;
-		opacity: 0.1;
+		background-size: 50%;
+		opacity: 0.2;
 		mix-blend-mode: overlay;
-		transform: translate(calc(-50% - 30vw * var(--progress)), calc(-50% + 5% * var(--progress)))
-			scale(calc(0.8 + 0.2 * var(--progress)));
 	}
 
-	.content {
-		display: grid;
-		grid-template-columns: 0.7fr 1fr;
+	.window {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.window img {
+		width: auto;
+		height: 90vh;
+	}
+
+	main {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		margin-top: 10rem;
+		gap: 10rem;
+	}
+
+	.job-title {
+		font-size: 3.5rem;
+		font-weight: 300;
+		letter-spacing: -3px;
+
+		margin: 0;
+	}
+
+	.my-name {
+		font-size: 1.5rem;
+		font-weight: 200;
+
+		margin: 0;
+	}
+
+	.page-links {
+		display: flex;
+		flex-direction: column;
+		gap: 0.125rem;
+	}
+
+	.page-link {
+		font-size: 0.95rem;
+		font-weight: 200;
+
+		color: white;
+		text-decoration: none;
 	}
 </style>
