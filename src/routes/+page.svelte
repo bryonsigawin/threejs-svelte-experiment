@@ -45,10 +45,10 @@
 					cursorScale = lerp(cursorScale, 1, 0.05).toFixed(2);
 				}
 
-				mouseCurrent.x = lerp(mouseCurrent.x, mouseTo.x, 0.4).toFixed(2);
-				mouseCurrent.y = lerp(mouseCurrent.y, mouseTo.y, 0.4).toFixed(2);
+				mouseCurrent.x = lerp(mouseCurrent.x, mouseTo.x, 0.2).toFixed(2);
+				mouseCurrent.y = lerp(mouseCurrent.y, mouseTo.y, 0.2).toFixed(2);
 
-				parallaxShift.x = mapRange(0, window.innerWidth, mouseCurrent.x, -20, 20);
+				parallaxShift.x = mapRange(0, window.innerWidth, mouseCurrent.x, -40, 40);
 				parallaxShift.y = mapRange(0, window.innerHeight, mouseCurrent.y, -10, 10);
 			}
 
@@ -59,7 +59,7 @@
 
 		timeline
 			.add({
-				targets: '.layout',
+				targets: '.parallax-scene',
 				translateX: ['-50vw', 0],
 				duration: 3500,
 				easing: 'easeInOutQuint',
@@ -105,46 +105,57 @@
 	{JSON.stringify(mouseCurrent)}
 </div> -->
 
-<div class="frame" class:freeze={!entryComplete}>
-	<div class="parallax" style="--shift-x: {parallaxShift.x}px; --shift-y: {parallaxShift.y}px">
-		<div class="layout">
+<div
+	class="frame"
+	class:freeze={!entryComplete}
+	style="--shift-x: {parallaxShift.x}px; --shift-y: {parallaxShift.y}px"
+>
+	<div class="parallax-scene">
+		<div class="parallax-track">
+			<div class="background" />
+
 			<div class="window">
 				<img src={windowImage} alt="window lol" />
 			</div>
-			<main>
-				<div>
-					<h1 class="job-title">
-						<span>Hey there!</span>
-						<span>I'm</span>
-						<span>Bryon</span>
-						<span>Sigawin</span>
-					</h1>
-					<h2 class="my-name">
-						<span>front-end developer </span>
-						<span>with </span>
-						<span>a </span>
-						<span>penchant </span>
-						<span>for </span>
-						<span>ux </span>
-						<span>and </span>
-						<span>motion </span>
-						<span>design.</span>
-					</h2>
-				</div>
-				<div class="page-links">
-					<a class="page-link" href="/">about</a>
-					<a class="page-link" href="/">resume</a>
-					<a class="page-link" href="/">linkedin</a>
-					<a class="page-link" href="/">github</a>
-				</div>
-			</main>
 		</div>
+	</div>
+
+	<div class="layout">
+		<div />
+
+		<main>
+			<div>
+				<h1 class="job-title">
+					<span>Hey there!</span>
+					<span>I'm</span>
+					<span>Bryon</span>
+					<span>Sigawin</span>
+				</h1>
+				<h2 class="my-name">
+					<span>front-end developer </span>
+					<span>with </span>
+					<span>a </span>
+					<span>penchant </span>
+					<span>for </span>
+					<span>ux </span>
+					<span>and </span>
+					<span>motion </span>
+					<span>design.</span>
+				</h2>
+			</div>
+			<div class="page-links">
+				<a class="page-link" href="/">about</a>
+				<a class="page-link" href="/">resume</a>
+				<a class="page-link" href="/">linkedin</a>
+				<a class="page-link" href="/">github</a>
+			</div>
+		</main>
 	</div>
 </div>
 
 <div
 	class="circle"
-	style="--shift-x: {mouseCurrent.x}px; --shift-y: {mouseCurrent.y}px; --scale: {cursorScale}"
+	style="--position-x: {mouseCurrent.x}px; --position-y: {mouseCurrent.y}px; --scale: {cursorScale}"
 />
 
 <style>
@@ -161,7 +172,8 @@
 
 		pointer-events: none;
 
-		transform: translate(calc(var(--shift-x) - 50%), calc(var(--shift-y) - 50%)) scale(var(--scale));
+		transform: translate(calc(var(--position-x) - 50%), calc(var(--position-y) - 50%))
+			scale(var(--scale));
 	}
 
 	.debug-box {
@@ -186,53 +198,33 @@
 		overflow: unset !important;
 	}
 
-	.parallax {
-		/* transform: translate(var(--shift-x), var(--shift-y)); */
-	}
-
-	.layout {
-		position: relative;
-
-		display: grid;
-		grid-template-columns: 40vw 1fr;
-		align-items: center;
-		gap: 5rem;
-
-		min-height: 100vh;
-		overflow: hidden;
-	}
-
-	.layout::before,
-	.layout::after {
-		content: '';
-
-		position: absolute;
-		z-index: -1;
+	.parallax-scene {
+		position: fixed;
 		top: 0;
 		left: 0;
-
-		width: 160%;
-		height: 100%;
+		width: 100vw;
+		height: 100vh;
 	}
 
-	.layout::before {
-		background-color: #183a6a;
-	}
+	.parallax-track {
+		position: absolute;
+		top: 50%;
+		left: -5vw;
 
-	.layout::after {
-		background-image: url('$lib/images/wall-texture.jpg');
-		background-size: 50%;
+		width: 160vw;
+		height: 120vh;
 
-		background-color: #183a6a;
-		mix-blend-mode: overlay;
-		opacity: 0.1;
+		/* transform: translateY(-50%); */
+
+		transform: translate(var(--shift-x), calc(-50% + var(--shift-y)));
 	}
 
 	.window {
-		position: relative;
-		z-index: 1;
-		display: flex;
-		justify-content: flex-end;
+		position: absolute;
+		top: 50%;
+		left: -10vw;
+
+		transform: translate(0, -50%);
 	}
 
 	.window img {
@@ -240,6 +232,39 @@
 		height: 90vh;
 	}
 
+	.background::before,
+	.background::after {
+		content: '';
+
+		position: absolute;
+		z-index: -1;
+		top: 0;
+		left: 0;
+
+		width: 100%;
+		height: 100%;
+	}
+
+	.background::before {
+		background-color: #183a6a;
+	}
+
+	.background::after {
+		background-image: url('$lib/images/wall-texture.jpg');
+		background-size: 50%;
+
+		mix-blend-mode: overlay;
+		opacity: 0.1;
+	}
+
+	.layout {
+		display: grid;
+		grid-template-columns: 40vw 1fr;
+		align-items: center;
+		gap: 5rem;
+
+		min-height: 100vh;
+	}
 	main {
 		display: flex;
 		flex-direction: column;
@@ -249,6 +274,8 @@
 
 		margin-top: auto;
 		margin-bottom: 10vh;
+
+		transform: translate(calc(var(--shift-x) * 0.5), calc(var(--shift-y) * 0.5));
 	}
 
 	.job-title {
