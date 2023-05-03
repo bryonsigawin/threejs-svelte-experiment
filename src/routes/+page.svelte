@@ -21,7 +21,7 @@
 
 	let mouseCurrent = { x: -1, y: -1 };
 	let mouseTo = { x: 0, y: 0 };
-	let cursorScale = 0;
+	let cursorScale = { value: 0 };
 
 	let parallaxShift = { x: 0, y: 0 };
 
@@ -40,11 +40,6 @@
 
 		let raf = requestAnimationFrame(function animate() {
 			if (mouseCurrent.x !== -1 && mouseCurrent.y !== -1) {
-				/** bring into view the cursor */
-				if (cursorScale < 1 && entryComplete) {
-					cursorScale = lerp(cursorScale, 1, 0.05).toFixed(2);
-				}
-
 				mouseCurrent.x = lerp(mouseCurrent.x, mouseTo.x, 0.2).toFixed(2);
 				mouseCurrent.y = lerp(mouseCurrent.y, mouseTo.y, 0.2).toFixed(2);
 
@@ -69,13 +64,25 @@
 			})
 			.add(
 				{
+					targets: cursorScale,
+					value: [0, 1],
+					duration: 1200,
+					easing: 'easeOutQuart',
+					update: () => {
+						cursorScale = cursorScale;
+					}
+				},
+				3500
+			)
+			.add(
+				{
 					targets: '.job-title span',
 					translateY: ['100%', 0],
 					duration: 1200,
 					delay: anime.stagger(120),
 					easing: 'easeInOutQuint'
 				},
-				3000
+				3500
 			)
 			.add(
 				{
@@ -85,7 +92,7 @@
 					delay: anime.stagger(80),
 					easing: 'easeInOutQuint'
 				},
-				3200
+				3700
 			)
 			.add(
 				{
@@ -95,7 +102,7 @@
 					delay: anime.stagger(80),
 					easing: 'linear'
 				},
-				3500
+				4000
 			);
 	});
 </script>
@@ -154,12 +161,12 @@
 </div>
 
 <div
-	class="circle"
-	style="--position-x: {mouseCurrent.x}px; --position-y: {mouseCurrent.y}px; --scale: {cursorScale}"
+	class="cursor"
+	style="--position-x: {mouseCurrent.x}px; --position-y: {mouseCurrent.y}px; --scale: {cursorScale.value}"
 />
 
 <style>
-	.circle {
+	.cursor {
 		position: fixed;
 		top: 0;
 		left: 0;
