@@ -196,6 +196,11 @@
 
 	.freeze .layout {
 		overflow: unset !important;
+		opacity: 0;
+	}
+
+	.freeze .parallax-scene {
+		transform: translateX(-50vw);
 	}
 
 	.parallax-scene {
@@ -275,7 +280,7 @@
 		margin-top: auto;
 		margin-bottom: 10vh;
 
-		transform: translate(calc(var(--shift-x) * 0.5), calc(var(--shift-y) * 0.5));
+		transform: translate(calc(var(--shift-x)), calc(var(--shift-y)));
 	}
 
 	.job-title {
