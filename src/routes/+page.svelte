@@ -48,8 +48,8 @@
 				mouseCurrent.x = lerp(mouseCurrent.x, mouseTo.x, 0.2).toFixed(2);
 				mouseCurrent.y = lerp(mouseCurrent.y, mouseTo.y, 0.2).toFixed(2);
 
-				parallaxShift.x = mapRange(0, window.innerWidth, mouseCurrent.x, -40, 40);
-				parallaxShift.y = mapRange(0, window.innerHeight, mouseCurrent.y, -10, 10);
+				parallaxShift.x = mapRange(0, window.innerWidth, mouseCurrent.x, 40, -40);
+				parallaxShift.y = mapRange(0, window.innerHeight, mouseCurrent.y, 10, -10);
 			}
 
 			requestAnimationFrame(animate);
