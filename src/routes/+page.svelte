@@ -23,6 +23,9 @@
 	let mouseTo = { x: 0, y: 0 };
 	let cursorScale = { value: 0 };
 
+
+	let parallaxCurrent = { x: 0, y: 0 };
+	let parallaxTo = { x: 0, y: 0 };
 	let parallaxShift = { x: 0, y: 0 };
 
 	onMount(() => {
@@ -36,15 +39,22 @@
 			mouseTo.x = e.clientX;
 			mouseTo.y = e.clientY;
 			mouseTo = mouseTo;
+
+			parallaxTo.x = e.clientX;
+			parallaxTo.y = e.clientY;
+			parallaxTo = parallaxTo;
 		});
 
 		let raf = requestAnimationFrame(function animate() {
 			if (mouseCurrent.x !== -1 && mouseCurrent.y !== -1) {
-				mouseCurrent.x = lerp(mouseCurrent.x, mouseTo.x, 0.2).toFixed(2);
-				mouseCurrent.y = lerp(mouseCurrent.y, mouseTo.y, 0.2).toFixed(2);
+				mouseCurrent.x = lerp(mouseCurrent.x, mouseTo.x, 0.1).toFixed(3);
+				mouseCurrent.y = lerp(mouseCurrent.y, mouseTo.y, 0.1).toFixed(3);
 
-				parallaxShift.x = mapRange(0, window.innerWidth, mouseCurrent.x, 40, -40);
-				parallaxShift.y = mapRange(0, window.innerHeight, mouseCurrent.y, 10, -10);
+				parallaxCurrent.x = lerp(parallaxCurrent.x, parallaxTo.x, 0.005).toFixed(3);
+				parallaxCurrent.y = lerp(parallaxCurrent.y, parallaxTo.y, 0.005).toFixed(3);
+
+				parallaxShift.x = mapRange(0, window.innerWidth, parallaxCurrent.x, 40, -40);
+				parallaxShift.y = mapRange(0, window.innerHeight, parallaxCurrent.y, 10, -10);
 			}
 
 			requestAnimationFrame(animate);
@@ -276,6 +286,7 @@
 		gap: 5rem;
 
 		min-height: 100vh;
+		overflow: hidden;
 	}
 	main {
 		display: flex;
