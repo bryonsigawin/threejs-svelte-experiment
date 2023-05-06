@@ -23,7 +23,6 @@
 	let mouseTo = { x: 0, y: 0 };
 	let cursorScale = { value: 0 };
 
-
 	let parallaxCurrent = { x: 0, y: 0 };
 	let parallaxTo = { x: 0, y: 0 };
 	let parallaxShift = { x: 0, y: 0 };
@@ -86,20 +85,20 @@
 			)
 			.add(
 				{
-					targets: '.job-title span',
+					targets: '.intro-line-1 span',
 					translateY: ['100%', 0],
-					duration: 1200,
-					delay: anime.stagger(120),
+					duration: 1100,
+					delay: anime.stagger(20),
 					easing: 'easeInOutQuint'
 				},
 				3500
 			)
 			.add(
 				{
-					targets: '.my-name span',
+					targets: '.intro-line-2 span',
 					translateY: ['100%', 0],
-					duration: 1200,
-					delay: anime.stagger(80),
+					duration: 700,
+					delay: anime.stagger(5),
 					easing: 'easeInOutQuint'
 				},
 				3700
@@ -142,22 +141,27 @@
 
 		<main>
 			<div>
-				<h1 class="job-title">
-					<span>Hey there!</span>
-					<span>I'm</span>
-					<span>Bryon</span>
-					<span>Sigawin</span>
+				<h1 class="intro-line-1">
+					{#each "Hey there, I'm Bryon Sigawin" as character}
+						<span>
+							{#if character === ' '}
+								&nbsp;
+							{:else}
+								{character}
+							{/if}</span
+						>
+					{/each}
 				</h1>
-				<h2 class="my-name">
-					<span>front-end developer </span>
-					<span>with </span>
-					<span>a </span>
-					<span>penchant </span>
-					<span>for </span>
-					<span>ux </span>
-					<span>and </span>
-					<span>motion </span>
-					<span>design.</span>
+				<h2 class="intro-line-2">
+					{#each 'front-end developer with a penchant for ux and motion design.' as character}
+						<span>
+							{#if character === ' '}
+								&nbsp;
+							{:else}
+								{character}
+							{/if}</span
+						>
+					{/each}
 				</h2>
 			</div>
 			<div class="page-links">
@@ -301,18 +305,17 @@
 		transform: translate(calc(var(--shift-x)), calc(var(--shift-y)));
 	}
 
-	.job-title {
+	.intro-line-1 {
 		font-size: 4rem;
 		font-weight: 300;
 		letter-spacing: -3px;
 		font-style: italic;
 
 		margin: 0;
-
 		overflow: hidden;
 	}
 
-	.my-name {
+	.intro-line-2 {
 		font-size: 1.25rem;
 		font-weight: 200;
 
@@ -320,13 +323,18 @@
 		overflow: hidden;
 	}
 
+	.intro-line-1 span,
+	.intro-line-2 span {
+		display: inline-block;
+	}
+
 	.page-links {
 		display: flex;
 		gap: 2rem;
 	}
 
-	.job-title span,
-	.my-name span {
+	.intro-line-1 span,
+	.intro-line-2 span {
 		display: inline-block;
 	}
 
