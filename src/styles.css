@@ -1,33 +1,33 @@
 :root {
-  font-size: 18px;
+	font-size: 18px;
 }
 
 body {
-  font-family: 'Spectral', serif;
-  color: white;
-  user-select: none;
-  }
+	font-family: 'Spectral', serif;
+	color: white;
+	user-select: none;
+}
 
 /**
   Lenis specific styles
   https: //github.com/studio-freight/lenis#recommended-css
   */
 html.lenis {
-  height: auto;
+	height: auto;
 }
 
 .lenis.lenis-smooth {
-  scroll-behavior: auto;
+	scroll-behavior: auto;
 }
 
 .lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
+	overscroll-behavior: contain;
 }
 
 .lenis.lenis-stopped {
-  overflow: hidden;
+	overflow: hidden;
 }
 
 .lenis.lenis-scrolling iframe {
-  pointer-events: none;
+	pointer-events: none;
 }
