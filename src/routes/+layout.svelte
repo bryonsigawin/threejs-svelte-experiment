@@ -12,11 +12,31 @@
 	import '../styles.css';
 
 	import { Canvas } from '@threlte/core';
+	import { useProgress } from '@threlte/extras';
+	import { Theatre, Studio, Project, Sheet } from '@threlte/theatre';
+
+	import * as THREE from 'three';
 </script>
 
+<video
+	id="video"
+	src="textures/caustics_edited.mkv"
+	muted="true"
+	playsinline="true"
+	loop
+	controls
+	style="display: none;"
+/>
+
 <div>
-	<Canvas>
+	<!-- <Studio enabled={true} /> -->
+
+	<Canvas shadowMapType={THREE.VSMShadowMap}>
+		<!-- <Project name="Through the window"> -->
+		<!-- <Sheet name="animated"> -->
 		<slot />
+		<!-- </Sheet> -->
+		<!-- </Project> -->
 	</Canvas>
 </div>
 

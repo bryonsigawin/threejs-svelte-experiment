@@ -3,7 +3,7 @@
 	import { BackSide } from 'three';
 
 	export let baseMesh;
-	export let outlineThickness = 0.01;
+	export let outlineThickness = 0.03;
 </script>
 
 {#if baseMesh}
