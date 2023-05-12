@@ -13,7 +13,7 @@
 	let rotation = 0;
 	let sceneFocus;
 
-	let cameraPosition = { x: 0, y: 2.2, z: 8 };
+	let cameraPosition = { x: 0, y: 2.2, z: 8.5 };
 
 	const video = document.getElementById('video');
 	video.play();
@@ -54,7 +54,7 @@
 <T.DirectionalLight
 	let:ref={mainLight}
 	color={'#FFF1CD'}
-	intensity={2}
+	intensity={3}
 	position={[16, 30, 10]}
 	castShadow
 	shadow.camera.near={0.5}
@@ -71,7 +71,7 @@
 	<T.Vector2 attach="shadow.mapSize" args={[1024, 1024]} />
 </T.DirectionalLight>
 
-<T.DirectionalLight let:ref={roomAmbient} color={'#ffffff'} intensity={0.4} position={[1.5, 4, 0]}>
+<T.DirectionalLight let:ref={roomAmbient} color={'#ffffff'} intensity={1} position={[1.5, 4, 0]}>
 	<T.DirectionalLightHelper args={[roomAmbient, 5, '#F08C53']} />
 </T.DirectionalLight>
 
