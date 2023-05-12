@@ -1,12 +1,82 @@
 <script>
-  import anime from 'animejs';
   import { onMount } from 'svelte';
-  import { entryComplete, cameraPan, cursorScale } from './animation-store';
+  import anime from 'animejs';
+  import { mapLinear, lerp } from 'three/src/math/MathUtils';
+
+  import {
+    mouseRawPosition,
+    cursorPosition,
+    parallaxShift,
+    entryComplete,
+    cameraPan,
+    cursorScale
+  } from './animation-store';
 
   let _cameraPan = $cameraPan;
   let _cursorScale = $cursorScale;
 
+  const calculateParallaxShift = (mousePosition) => {
+    const normalizedX = mapLinear(mousePosition.x, 0, window.innerWidth, 1, -1);
+    const normalizedY = mapLinear(mousePosition.y, 0, window.innerHeight, 1, -1);
+
+    return { x: normalizedX, y: normalizedY };
+  };
+
   onMount(() => {
+    /**
+     * Setup mouse listener for parallax
+     */
+    window.addEventListener('mousemove', function trackMouse(e) {
+      const position = {
+        x: e.clientX,
+        y: e.clientY
+      };
+
+      if ($mouseRawPosition.x === -1 && $mouseRawPosition.y === -1) {
+        cursorPosition.update((values) => ({ ...values, current: position }));
+        // parallaxShift.update((values) => ({ ...values, next: calculateParallaxShift(position) }));
+      }
+
+      mouseRawPosition.set(position);
+    });
+
+    /**
+     * Setup parallaxing
+     */
+    const raf = requestAnimationFrame(function animate() {
+      if ($entryComplete) {
+        /**
+         * mouse cursor
+         */
+        cursorPosition.update(({ next, current }) => ({
+          current: {
+            x: lerp(current.x, next.x, 0.05),
+            y: lerp(current.y, next.y, 0.05)
+          },
+          next: {
+            x: $mouseRawPosition.x,
+            y: $mouseRawPosition.y
+          }
+        }));
+
+        /**
+         * scene shifting
+         */
+        parallaxShift.update(({ next, current }) => ({
+          current: {
+            x: lerp(current.x, next.x, 0.01),
+            y: lerp(current.y, next.y, 0.01)
+          },
+          next: calculateParallaxShift($mouseRawPosition)
+        }));
+      }
+
+      requestAnimationFrame(animate);
+    });
+
+    /**
+     * Configure entry animation
+     */
     const timeline = anime.timeline();
 
     timeline
@@ -62,5 +132,10 @@
         },
         6900
       );
+
+    return () => {
+      window.removeEventListener('mousemove', trackMouse);
+      cancelAnimationFrame(raf);
+    };
   });
 </script>

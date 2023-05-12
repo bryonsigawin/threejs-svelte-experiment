@@ -77,7 +77,7 @@
       position={[-3.55, 1.01, -5.43]}
       scale={[0.86, 1, 1]}
     />
-    <T.Group position={[-3.22, 2.58, -1.86]} rotation={[-0.28, 0.51, 0.14]} scale={[0.18, 0.12, 0.18]}>
+    <T.Group position={[-3.59, 1.37, -2.49]} rotation={[0, 0.18, 0]}>
       <T.Mesh
         castShadow
         receiveShadow

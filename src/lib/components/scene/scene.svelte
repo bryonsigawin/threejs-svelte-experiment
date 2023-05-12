@@ -2,22 +2,30 @@
   import { T, useFrame } from '@threlte/core';
   import { VideoTexture } from 'three';
 
-  import { cameraPan } from './../animator/animation-store';
+  import { cameraPan, entryComplete, worldShift } from './../animator/animation-store';
 
   import Elements from './elements.svelte';
 
   let rotation = 0;
   let sceneFocus;
 
-  let cameraPosition = { x: 4, y: 2.2, z: 8.5 };
+  let initialCameraPosition = { x: 0, y: 2.2, z: 8.5 };
+  let cameraPosition = { ...initialCameraPosition };
 
-  const unsubcribe = cameraPan.subscribe(({ value }) => {
+  $: if ($entryComplete) {
+    worldShift.subscribe(({ x, y }) => {
+      cameraPosition.x = initialCameraPosition.x + x;
+      cameraPosition.y = initialCameraPosition.y + y;
+    });
+  }
+
+  const unsubcribePanning = cameraPan.subscribe(({ value }) => {
     cameraPosition.x = value;
     cameraPosition = cameraPosition;
   });
 
   $: if (cameraPosition.x === 0) {
-    unsubcribe();
+    unsubcribePanning();
   }
 
   const video = document.getElementById('video');
@@ -32,7 +40,7 @@
 </script>
 
 <T.Group rotation.y={rotation}>
-  <T.PerspectiveCamera fov={30} let:ref={cam} position={[...Object.values(cameraPosition)]} makeDefault />
+  <T.PerspectiveCamera fov={30} position={[...Object.values(cameraPosition)]} makeDefault />
 </T.Group>
 
 <T.AmbientLight intensity={0.15} />

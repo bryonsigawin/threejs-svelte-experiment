@@ -1,5 +1,5 @@
-export function mapRange(in_min, in_max, input, out_min, out_max) {
-  return ((input - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
+export function mapRange(value, low1, high1, low2, high2) {
+  return low2 + ((high2 - low2) * (value - low1)) / (high1 - low1);
 }
 
 export function clamp(min, input, max) {
