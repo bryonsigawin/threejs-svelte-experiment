@@ -21,16 +21,16 @@
   const texture = new VideoTexture(video);
   texture.needsUpdate = true;
 
-  // anime({
-  // 	targets: cameraPosition,
-  // 	x: [4, 0],
-  // 	duration: 6000,
-  // 	delay: 500,
-  // 	easing: 'easeInOutQuart',
-  // 	update: () => {
-  // 		cameraPosition = cameraPosition;
-  // 	}
-  // });
+  anime({
+    targets: cameraPosition,
+    x: [4, 0],
+    duration: 6000,
+    delay: 500,
+    easing: 'easeInOutQuart',
+    update: () => {
+      cameraPosition = cameraPosition;
+    }
+  });
 
   let target;
 
@@ -46,39 +46,53 @@
   </T.PerspectiveCamera>
 </T.Group>
 
-<T.GridHelper />
-<T.AxesHelper />
+<!-- <T.GridHelper /> -->
+<!-- <T.AxesHelper /> -->
 
-<T.AmbientLight intensity={0.1} />
+<T.AmbientLight intensity={0.15} />
 
 <T.DirectionalLight
   let:ref={mainLight}
   color={'#FFF1CD'}
-  intensity={3}
-  position={[16, 30, 10]}
+  intensity={1}
+  position={[4, 10, 5]}
   castShadow
   shadow.camera.near={0.5}
   shadow.camera.far={100}
-  shadow.camera.top={8}
-  shadow.camera.right={8}
-  shadow.camera.bottom={-8}
-  shadow.camera.left={-8}
+  shadow.camera.top={20}
+  shadow.camera.right={20}
+  shadow.camera.bottom={-20}
+  shadow.camera.left={-20}
   shadow.radius={1.5}
   shadow.blurSamples={26}
-  shadow.bias={-0.0003}
+  shadow.bias={-0.0}
 >
-  <T.DirectionalLightHelper args={[mainLight, 5, '#F08C53']} />
+  <!-- <T.DirectionalLightHelper args={[mainLight, 5, '#F08C53']} /> -->
   <T.Vector2 attach="shadow.mapSize" args={[1024, 1024]} />
 </T.DirectionalLight>
 
-<T.DirectionalLight let:ref={roomAmbient} color={'#ffffff'} intensity={1} position={[1.5, 4, 0]}>
-  <T.DirectionalLightHelper args={[roomAmbient, 5, '#F08C53']} />
+<T.DirectionalLight
+  let:ref={roomAmbient}
+  color={'#ffffff'}
+  intensity={0.6}
+  position={[0.5, 4, 1]}
+  castShadow
+  shadow.camera.near={2}
+  shadow.camera.far={6}
+  shadow.camera.top={10}
+  shadow.camera.right={10}
+  shadow.camera.bottom={-10}
+  shadow.camera.left={-10}
+  shadow.radius={2}
+>
+  <!-- <T.DirectionalLightHelper args={[roomAmbient, 5, '#F08C53']} /> -->
+  <T.Vector2 attach="shadow.mapSize" args={[1024, 1024]} />
 </T.DirectionalLight>
 
 <T.SpotLight
   let:ref={causticLight}
-  position={[0.5, 1.5, 8]}
-  target.position={[0.5, 1.5, 0]}
+  position={[0.5, 4, 8]}
+  target.position={[0.5, 4, 0]}
   intensity={0.3}
   color={'#ffffff'}
   angle={Math.PI / 4}
@@ -96,7 +110,7 @@
   shadow.camera.bottom={-8}
   shadow.camera.left={-8}
 >
-  <T.SpotLightHelper args={[causticLight]} />
+  <!-- <T.SpotLightHelper args={[causticLight]} /> -->
   <T.Vector2 attach="shadow.mapSize" args={[1024 * (16 / 9), 1024]} />
 </T.SpotLight>
 
