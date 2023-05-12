@@ -1,27 +1,11 @@
 <script>
-  // load fonts
-  import '@fontsource/spectral/400.css';
-  import '@fontsource/spectral/400-italic.css';
-  import '@fontsource/spectral/300.css';
-  import '@fontsource/spectral/300-italic.css';
-  import '@fontsource/spectral/200.css';
-  import '@fontsource/spectral/200-italic.css';
-
-  // load default styles
-  import 'modern-normalize';
-  import '../styles.css';
-
-  import anime from 'animejs';
   import { onMount } from 'svelte';
 
-  import windowImage from '$lib/images/window-temp.png';
   import { mapRange, lerp } from '$lib/utils/maths';
-
-  let entryComplete = false;
+  import { entryComplete, cursorScale } from './animator/animation-store';
 
   let mouseCurrent = { x: -1, y: -1 };
   let mouseTo = { x: 0, y: 0 };
-  let cursorScale = { value: 0 };
 
   let parallaxCurrent = { x: 0, y: 0 };
   let parallaxTo = { x: 0, y: 0 };
@@ -58,63 +42,14 @@
 
       requestAnimationFrame(animate);
     });
-
-    const timeline = anime.timeline();
-
-    timeline
-      .add({
-        targets: cursorScale,
-        value: [0, 1],
-        duration: 1200,
-        easing: 'easeOutQuart',
-        begin: () => {
-          entryComplete = true;
-        },
-        update: () => {
-          cursorScale = cursorScale;
-        }
-      })
-      .add(
-        {
-          targets: '.intro-line-1 span',
-          translateY: ['100%', 0],
-          duration: 1100,
-          delay: anime.stagger(20),
-          easing: 'easeInOutQuint'
-        },
-        0
-      )
-      .add(
-        {
-          targets: '.intro-line-2 span',
-          translateY: ['100%', 0],
-          duration: 700,
-          delay: anime.stagger(5),
-          easing: 'easeInOutQuint'
-        },
-        200
-      )
-      .add(
-        {
-          targets: '.page-links',
-          opacity: [0, 1],
-          duration: 1000,
-          delay: anime.stagger(80),
-          easing: 'linear'
-        },
-        200
-      );
-
-    timeline.pause();
-    timeline.seek(0);
-
-    setTimeout(() => timeline.play(), 6000);
   });
+
+  $: console.log($entryComplete);
 </script>
 
 <div
   class="frame"
-  class:freeze={!entryComplete}
+  class:freeze={!$entryComplete}
   style="--shift-x: {parallaxShift.x}px; --shift-y: {parallaxShift.y}px"
 >
   <div class="layout">
@@ -157,7 +92,7 @@
 
 <div
   class="cursor"
-  style="--position-x: {mouseCurrent.x}px; --position-y: {mouseCurrent.y}px; --scale: {cursorScale.value}"
+  style="--position-x: {mouseCurrent.x}px; --position-y: {mouseCurrent.y}px; --scale: {$cursorScale.value}"
 />
 
 <style>
