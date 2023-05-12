@@ -27,3 +27,5 @@ export const contentShift = derived(parallaxShift, ({ current }) => ({
   x: current.x * 30,
   y: current.y * 30
 }));
+
+export const isNight = writable(false);
