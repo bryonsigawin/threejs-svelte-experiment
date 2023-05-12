@@ -8,3 +8,9 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Blender caches and outputs
+BL_proxy
+
+# Tranform outputs
+/Scene_colored.svelte
