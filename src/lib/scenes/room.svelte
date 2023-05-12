@@ -4,122 +4,112 @@ Command: npx @threlte/gltf@0.0.5 static/models/scene_simplified.glb --transform
 -->
 
 <script>
-	import { Group, MeshToonMaterial } from 'three';
-	import { T, Three } from '@threlte/core';
-	import { useGltf } from '@threlte/extras';
+  import { Group, MeshToonMaterial } from 'three';
+  import { T, Three } from '@threlte/core';
+  import { useGltf } from '@threlte/extras';
 
-	export const ref = new Group();
+  export const ref = new Group();
 
-	const { gltf } = useGltf('models/scene_simplified-transformed.glb', { useDraco: true });
+  const { gltf } = useGltf('models/scene_simplified-transformed.glb', { useDraco: true });
 
-	const BaseMaterial = new MeshToonMaterial();
+  const BaseMaterial = new MeshToonMaterial();
 </script>
 
 {#if $gltf}
-	<Three type={ref} {...$$restProps}>
-		<T.Mesh
-			geometry={$gltf.nodes.Curtain.geometry}
-			material={BaseMaterial}
-			receiveShadow
-			position={[1.47, 1.87, 1.59]}
-			rotation={[-Math.PI / 2, 0, Math.PI]}
-			scale={[-0.24, -0.24, -0.19]}
-		/>
-		<T.Mesh
-			geometry={$gltf.nodes.Plant.geometry}
-			material={BaseMaterial}
-			receiveShadow
-			position={[-1.01, 0.97, 1.01]}
-			rotation={[Math.PI / 2, 0, -0.21]}
-		/>
-		<T.Mesh
-			geometry={$gltf.nodes.TableTop.geometry}
-			material={BaseMaterial}
-			castShadow
-			receiveShadow
-			position={[-0.93, 0, -1.19]}
-		/>
-		<T.Mesh
-			geometry={$gltf.nodes.Legs.geometry}
-			material={BaseMaterial}
-			castShadow
-			receiveShadow
-			position={[-0.93, 0, -1.19]}
-		/>
-		<T.Mesh
-			geometry={$gltf.nodes.LegBridges.geometry}
-			material={BaseMaterial}
-			castShadow
-			receiveShadow
-			position={[-0.93, 0, -1.19]}
-		/>
-		<T.Group position={[0, 2, 2]} scale={[5, 2, 0.1]}>
-			<T.Mesh
-				geometry={$gltf.nodes.Cube007.geometry}
-				material={BaseMaterial}
-				castShadow
-				receiveShadow
-			/>
-			<T.Mesh
-				geometry={$gltf.nodes.Cube007_1.geometry}
-				material={BaseMaterial}
-				castShadow
-				receiveShadow
-			/>
-		</T.Group>
-		<T.Mesh
-			geometry={$gltf.nodes.Wall001.geometry}
-			material={BaseMaterial}
-			castShadow
-			receiveShadow
-			position={[-1.83, 2, -1.1]}
-			rotation={[-Math.PI, Math.PI / 2, 0]}
-			scale={[-3, -2, -0.1]}
-		/>
-		<T.Mesh
-			geometry={$gltf.nodes.Wall002.geometry}
-			material={BaseMaterial}
-			castShadow
-			receiveShadow
-			position={[1.07, 2, -6.1]}
-			rotation={[-Math.PI, 0, 0]}
-			scale={[-5, -2, -0.1]}
-		/>
-		<T.Mesh
-			geometry={$gltf.nodes.Cube001.geometry}
-			material={BaseMaterial}
-			castShadow
-			receiveShadow
-			position={[-0.96, 1.37, -1.01]}
-			rotation={[0, 0.44, 1.96]}
-		/>
-		<T.Mesh
-			geometry={$gltf.nodes.Cube003.geometry}
-			material={BaseMaterial}
-			castShadow
-			receiveShadow
-			position={[-0.79, 1.36, -1.09]}
-			rotation={[0, 0.44, 0]}
-		/>
-		<T.Mesh
-			geometry={$gltf.nodes.PictureFrame.geometry}
-			material={BaseMaterial}
-			castShadow
-			receiveShadow
-			position={[-1.73, 2.31, -3.89]}
-			rotation={[-Math.PI, Math.PI / 2, 0]}
-			scale={-1}
-		/>
-		<T.Mesh
-			geometry={$gltf.nodes.Picture.geometry}
-			material={BaseMaterial}
-			castShadow
-			receiveShadow
-			position={[-1.73, 2.31, -3.89]}
-			rotation={[-Math.PI, Math.PI / 2, 0]}
-			scale={-1}
-		/>
+  <Three type={ref} {...$$restProps}>
+    <T.Mesh
+      geometry={$gltf.nodes.Curtain.geometry}
+      material={BaseMaterial}
+      receiveShadow
+      position={[1.47, 1.87, 1.59]}
+      rotation={[-Math.PI / 2, 0, Math.PI]}
+      scale={[-0.24, -0.24, -0.19]}
+    />
+    <T.Mesh
+      geometry={$gltf.nodes.Plant.geometry}
+      material={BaseMaterial}
+      receiveShadow
+      position={[-1.01, 0.97, 1.01]}
+      rotation={[Math.PI / 2, 0, -0.21]}
+    />
+    <T.Mesh
+      geometry={$gltf.nodes.TableTop.geometry}
+      material={BaseMaterial}
+      castShadow
+      receiveShadow
+      position={[-0.93, 0, -1.19]}
+    />
+    <T.Mesh
+      geometry={$gltf.nodes.Legs.geometry}
+      material={BaseMaterial}
+      castShadow
+      receiveShadow
+      position={[-0.93, 0, -1.19]}
+    />
+    <T.Mesh
+      geometry={$gltf.nodes.LegBridges.geometry}
+      material={BaseMaterial}
+      castShadow
+      receiveShadow
+      position={[-0.93, 0, -1.19]}
+    />
+    <T.Group position={[0, 2, 2]} scale={[5, 2, 0.1]}>
+      <T.Mesh geometry={$gltf.nodes.Cube007.geometry} material={BaseMaterial} castShadow receiveShadow />
+      <T.Mesh geometry={$gltf.nodes.Cube007_1.geometry} material={BaseMaterial} castShadow receiveShadow />
+    </T.Group>
+    <T.Mesh
+      geometry={$gltf.nodes.Wall001.geometry}
+      material={BaseMaterial}
+      castShadow
+      receiveShadow
+      position={[-1.83, 2, -1.1]}
+      rotation={[-Math.PI, Math.PI / 2, 0]}
+      scale={[-3, -2, -0.1]}
+    />
+    <T.Mesh
+      geometry={$gltf.nodes.Wall002.geometry}
+      material={BaseMaterial}
+      castShadow
+      receiveShadow
+      position={[1.07, 2, -6.1]}
+      rotation={[-Math.PI, 0, 0]}
+      scale={[-5, -2, -0.1]}
+    />
+    <T.Mesh
+      geometry={$gltf.nodes.Cube001.geometry}
+      material={BaseMaterial}
+      castShadow
+      receiveShadow
+      position={[-0.96, 1.37, -1.01]}
+      rotation={[0, 0.44, 1.96]}
+    />
+    <T.Mesh
+      geometry={$gltf.nodes.Cube003.geometry}
+      material={BaseMaterial}
+      castShadow
+      receiveShadow
+      position={[-0.79, 1.36, -1.09]}
+      rotation={[0, 0.44, 0]}
+    />
+    <T.Mesh
+      geometry={$gltf.nodes.PictureFrame.geometry}
+      material={BaseMaterial}
+      castShadow
+      receiveShadow
+      position={[-1.73, 2.31, -3.89]}
+      rotation={[-Math.PI, Math.PI / 2, 0]}
+      scale={-1}
+    />
+    <T.Mesh
+      geometry={$gltf.nodes.Picture.geometry}
+      material={BaseMaterial}
+      castShadow
+      receiveShadow
+      position={[-1.73, 2.31, -3.89]}
+      rotation={[-Math.PI, Math.PI / 2, 0]}
+      scale={-1}
+    />
 
-		<slot {ref} />
-	</Three>
+    <slot {ref} />
+  </Three>
 {/if}
