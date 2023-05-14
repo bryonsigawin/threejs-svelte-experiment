@@ -5,7 +5,9 @@
 
   export const ref = new Group();
 
-  const { gltf } = useGltf('/models/scene_colored-transformed.glb', { useDraco: true });
+  const { gltf } = useGltf('/models/scene_colored-transformed.glb', {
+    useDraco: 'loaders/draco/'
+  });
 </script>
 
 {#if $gltf}
