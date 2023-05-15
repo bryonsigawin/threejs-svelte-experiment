@@ -11,6 +11,9 @@ vite.config.ts.timestamp-*
 
 # Blender caches and outputs
 BL_proxy
+/assets/*.blend1
+/assets/exports/
 
 # Tranform outputs
 /Scene_colored.svelte
+/Scene.svelte

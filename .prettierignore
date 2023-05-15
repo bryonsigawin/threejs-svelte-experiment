@@ -14,3 +14,4 @@ yarn.lock
 
 # Blender caches and outputs
 BL_proxy
+/assets

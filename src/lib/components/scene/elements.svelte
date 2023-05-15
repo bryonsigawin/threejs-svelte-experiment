@@ -5,7 +5,7 @@
 
   export const ref = new Group();
 
-  const { gltf } = useGltf('/models/scene_colored-transformed.glb', {
+  const { gltf } = useGltf('/models/scene.glb', {
     useDraco: 'loaders/draco/'
   });
 </script>
@@ -71,7 +71,7 @@
       receiveShadow
       geometry={$gltf.nodes.Sideboard001.geometry}
       material={$gltf.materials.Temp}
-      position={[-1.32, 2.53, -5.77]}
+      position={[-1.32, 2.67, -5.77]}
       scale={[1.22, 0.05, 0.49]}
     />
     <T.Mesh
@@ -305,7 +305,7 @@
       receiveShadow
       geometry={$gltf.nodes.BookShelf.geometry}
       material={$gltf.materials.Temp}
-      position={[-2.02, 2.56, -5.59]}
+      position={[-1.7, 2.93, -5.78]}
       rotation={[0, 0, -Math.PI / 2]}
       scale={0.89}
     />
@@ -322,7 +322,7 @@
       receiveShadow
       geometry={$gltf.nodes.BookStack002.geometry}
       material={$gltf.materials.Temp}
-      position={[-2.34, 2.64, -5.75]}
+      position={[-2.34, 2.78, -5.75]}
       rotation={[0, 0.01, 0]}
       scale={0.96}
     />
