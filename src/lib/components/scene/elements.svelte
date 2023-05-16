@@ -1,5 +1,5 @@
 <script>
-  import { Group } from 'three';
+  import { Group, MeshBasicMaterial } from 'three';
   import { T, Three } from '@threlte/core';
   import { useGltf } from '@threlte/extras';
 
@@ -10,6 +10,8 @@
   const { gltf } = useGltf('/models/scene.glb', {
     useDraco: 'loaders/draco/'
   });
+
+  const outlineMaterial = new MeshBasicMaterial({ color: '#191919' });
 </script>
 
 {#if $gltf}
@@ -21,21 +23,34 @@
       material={$gltf.materials.Kettle}
       position={[-2.11, 1.61, -5.23]}
     />
-    <T.Mesh
-      castShadow
-      receiveShadow
-      geometry={$gltf.nodes.Dripper.geometry}
-      material={$gltf.materials.Dripper}
-      position={[-1.65, 1.75, -5.27]}
-    />
-    <T.Mesh
-      castShadow
-      receiveShadow
-      geometry={$gltf.nodes.Pitcher.geometry}
-      material={$gltf.materials.Pitcher}
-      position={[-1.65, 1.68, -5.35]}
-      rotation={[0, -0.59, 0]}
-    />
+    <T.Group position={[-1.65, 1.75, -5.27]}>
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.BezierCurve002.geometry}
+        material={$gltf.materials.Dripper}
+      />
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.BezierCurve002_1.geometry}
+        material={outlineMaterial}
+      />
+    </T.Group>
+    <T.Group position={[-1.65, 1.68, -5.35]} rotation={[0, -0.59, 0]}>
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.Cylinder010.geometry}
+        material={$gltf.materials.Pitcher}
+      />
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.Cylinder010_1.geometry}
+        material={outlineMaterial}
+      />
+    </T.Group>
     <T.Mesh
       castShadow
       receiveShadow
@@ -45,54 +60,56 @@
       rotation={[-Math.PI / 2, 0, Math.PI]}
       scale={[-0.24, -0.24, -0.19]}
     />
-    <T.Mesh
-      castShadow
-      receiveShadow
-      geometry={$gltf.nodes.Plant.geometry}
-      material={$gltf.materials.Plant}
-      position={[-2.94, 0.97, 1.01]}
-      rotation={[Math.PI / 2, 0, -0.21]}
-    />
-    <T.Mesh
-      castShadow
-      receiveShadow
-      geometry={$gltf.nodes.Cabinet.geometry}
-      material={$gltf.materials.Cabinet}
-      position={[-3.55, 1.01, -5.43]}
-      scale={[0.86, 1, 1]}
-    />
-    <T.Mesh
-      castShadow
-      receiveShadow
-      geometry={$gltf.nodes.Sideboard.geometry}
-      material={$gltf.materials.Shelf}
-      position={[-1.32, 0.74, -5.5]}
-      scale={[1, 0.93, 1]}
-    />
-    <T.Mesh
-      castShadow
-      receiveShadow
-      geometry={$gltf.nodes.Box.geometry}
-      material={$gltf.materials.Box}
-      position={[-3.63, 2.26, -5.51]}
-      rotation={[0, 0.35, 0]}
-    />
-    <T.Mesh
-      castShadow
-      receiveShadow
-      geometry={$gltf.nodes.Chair.geometry}
-      material={$gltf.materials.Wood}
-      position={[-1.92, 0.69, -1.38]}
-      rotation={[0, 0.49, 0]}
-    />
-    <T.Mesh
-      castShadow
-      receiveShadow
-      geometry={$gltf.nodes.CabinetDrawers.geometry}
-      material={$gltf.materials.Cabinet}
-      position={[-3.55, 1.63, -5.4]}
-      scale={[0.78, 0.27, 0.97]}
-    />
+    <T.Group position={[-2.94, 0.97, 1.01]} rotation={[Math.PI / 2, 0, -0.21]}>
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.Soil_02001.geometry}
+        material={$gltf.materials.Plant}
+      />
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.Soil_02001_1.geometry}
+        material={outlineMaterial}
+      />
+    </T.Group>
+    <T.Group position={[-3.55, 1.01, -5.43]} scale={[0.86, 1, 1]}>
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.Cube012.geometry}
+        material={$gltf.materials.Cabinet}
+      />
+      <T.Mesh castShadow receiveShadow geometry={$gltf.nodes.Cube012_1.geometry} material={outlineMaterial} />
+    </T.Group>
+    <T.Group position={[-1.32, 0.74, -5.5]} scale={[1, 0.93, 1]}>
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.Cube015.geometry}
+        material={$gltf.materials.Shelf}
+      />
+      <T.Mesh castShadow receiveShadow geometry={$gltf.nodes.Cube015_1.geometry} material={outlineMaterial} />
+    </T.Group>
+    <T.Group position={[-3.63, 2.26, -5.51]} rotation={[0, 0.35, 0]}>
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.Cube019.geometry}
+        material={$gltf.materials.Box}
+      />
+      <T.Mesh castShadow receiveShadow geometry={$gltf.nodes.Cube019_1.geometry} material={outlineMaterial} />
+    </T.Group>
+    <T.Group position={[-3.55, 1.63, -5.36]} scale={[0.78, 0.27, 0.97]}>
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.Cube037.geometry}
+        material={$gltf.materials.Cabinet}
+      />
+      <T.Mesh castShadow receiveShadow geometry={$gltf.nodes.Cube037_1.geometry} material={outlineMaterial} />
+    </T.Group>
     <T.Group position={[-3.59, 1.37, -2.49]} rotation={[0, 0.18, 0]}>
       <T.Mesh
         castShadow
@@ -115,35 +132,56 @@
       position={[-2.89, 1.13, -5.36]}
       rotation={[Math.PI / 2, 0.21, -1.13]}
     />
-    <T.Mesh
-      castShadow
-      receiveShadow
-      geometry={$gltf.nodes.Shelf.geometry}
-      material={$gltf.materials.Shelf}
-      position={[-1.32, 2.67, -5.77]}
-      scale={[1.22, 0.05, 0.49]}
-    />
-    <T.Mesh
-      castShadow
-      receiveShadow
-      geometry={$gltf.nodes.TableTop.geometry}
-      material={$gltf.materials.Wood}
-      position={[-3.21, 0, -1.63]}
-    />
-    <T.Mesh
-      castShadow
-      receiveShadow
-      geometry={$gltf.nodes.Legs.geometry}
-      material={$gltf.materials.Wood}
-      position={[-3.21, 0, -1.63]}
-    />
-    <T.Mesh
-      castShadow
-      receiveShadow
-      geometry={$gltf.nodes.LegBridges.geometry}
-      material={$gltf.materials.Wood}
-      position={[-3.21, 0, -1.63]}
-    />
+    <T.Group position={[-1.32, 2.67, -5.77]} scale={[1.22, 0.05, 0.49]}>
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.Cube014.geometry}
+        material={$gltf.materials.Shelf}
+      />
+      <T.Mesh castShadow receiveShadow geometry={$gltf.nodes.Cube014_1.geometry} material={outlineMaterial} />
+    </T.Group>
+    <T.Group position={[-1.92, 0.69, -1.38]} rotation={[0, 0.49, 0]}>
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.Cylinder006.geometry}
+        material={$gltf.materials.Wood}
+      />
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.Cylinder006_1.geometry}
+        material={outlineMaterial}
+      />
+    </T.Group>
+    <T.Group position={[-3.21, 0, -1.63]}>
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.Cube004.geometry}
+        material={$gltf.materials.Wood}
+      />
+      <T.Mesh castShadow receiveShadow geometry={$gltf.nodes.Cube004_1.geometry} material={outlineMaterial} />
+    </T.Group>
+    <T.Group position={[-3.21, 0, -1.63]}>
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.Cube005.geometry}
+        material={$gltf.materials.Wood}
+      />
+      <T.Mesh castShadow receiveShadow geometry={$gltf.nodes.Cube005_1.geometry} material={outlineMaterial} />
+    </T.Group>
+    <T.Group position={[-3.21, 0, -1.63]}>
+      <T.Mesh
+        castShadow
+        receiveShadow
+        geometry={$gltf.nodes.Cube006.geometry}
+        material={$gltf.materials.Wood}
+      />
+      <T.Mesh castShadow receiveShadow geometry={$gltf.nodes.Cube006_1.geometry} material={outlineMaterial} />
+    </T.Group>
     <T.Group position={[0.79, 2, 2]} scale={[5, 2, 0.1]}>
       <T.Mesh
         castShadow
@@ -238,12 +276,7 @@
         geometry={$gltf.nodes.Cube018.geometry}
         material={$gltf.materials.Window}
       />
-      <T.Mesh
-        castShadow
-        receiveShadow
-        geometry={$gltf.nodes.Cube018_1.geometry}
-        material={$gltf.materials.Outline}
-      />
+      <T.Mesh castShadow receiveShadow geometry={$gltf.nodes.Cube018_1.geometry} material={outlineMaterial} />
     </T.Group>
     <T.Group position={[-2.83, 3.43, -5.98]} rotation={[Math.PI / 2, 0, 0]} scale={0.75}>
       <T.Mesh
@@ -274,7 +307,7 @@
       geometry={$gltf.nodes.ClockHandHour.geometry}
       material={$gltf.materials.Clock}
       position={[-2.83, 3.43, -5.98]}
-      rotation={[0, 0, $clockHands.hour]}
+      rotation={[0, 0, $clockHands.hours]}
       scale={0.75}
     />
     <T.Mesh
@@ -283,7 +316,16 @@
       geometry={$gltf.nodes.ClockHandMinutes.geometry}
       material={$gltf.materials.Clock}
       position={[-2.83, 3.43, -5.98]}
-      rotation={[0, 0, $clockHands.minute]}
+      rotation={[0, 0, $clockHands.minutes]}
+      scale={0.75}
+    />
+    <T.Mesh
+      castShadow
+      receiveShadow
+      geometry={$gltf.nodes.ClockHandMinutes.geometry}
+      material={$gltf.materials.Clock}
+      position={[-2.83, 3.43, -5.98]}
+      rotation={[0, 0, $clockHands.seconds]}
       scale={0.75}
     />
     <T.Mesh
@@ -306,6 +348,7 @@
         geometry={$gltf.nodes.Cube_1.geometry}
         material={$gltf.materials.BookBlue}
       />
+      <T.Mesh castShadow receiveShadow geometry={$gltf.nodes.Cube_2.geometry} material={outlineMaterial} />
     </T.Group>
     <T.Mesh
       castShadow

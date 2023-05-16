@@ -1,6 +1,5 @@
 <script>
   import { T } from '@threlte/core';
-
   import { cameraPan, entryComplete, isNight, worldShift } from './../animator/animation-store';
 
   import Elements from './elements.svelte';

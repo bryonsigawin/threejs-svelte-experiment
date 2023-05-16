@@ -13,14 +13,14 @@
   });
 </script>
 
-<T.AmbientLight intensity={0.15} />
+<T.AmbientLight intensity={0.05} />
 
 <!-- 
   Main sun light source intended for casting the shadow of the window
  -->
 <T.DirectionalLight
-  color={'#FFF1CD'}
-  intensity={1}
+  color={'#ffc977'}
+  intensity={2}
   position={[4, 10, 5]}
   castShadow
   shadow.camera.near={0.5}
@@ -40,8 +40,8 @@
   Light source for the room's interior
  -->
 <T.DirectionalLight
-  color={'#ffffff'}
-  intensity={0.6}
+  color={'#ffedd3'}
+  intensity={0.8}
   position={[0.5, 4, 1]}
   castShadow
   shadow.camera.near={2}

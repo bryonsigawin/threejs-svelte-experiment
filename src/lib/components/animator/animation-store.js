@@ -43,16 +43,17 @@ export const isNight = writable(false);
 /**
  * Clock movements
  */
-export const time = readable({ hour: 0, minute: 0 }, function start(set) {
+export const time = readable({ hours: 0, minutes: 0, seconds: 0 }, function start(set) {
   const interval = setInterval(() => {
     const date = new Date();
-    const hour = date.getHours();
+    const hours = date.getHours();
 
     set({
-      hour: hour > 12 ? hour - 12 : hour,
-      minute: date.getMinutes()
+      hours: hours > 12 ? hours - 12 : hours,
+      minutes: date.getMinutes(),
+      seconds: date.getSeconds()
     });
-  }, 1000 * 30);
+  }, 1000);
 
   return function stop() {
     clearInterval(interval);
@@ -62,12 +63,16 @@ export const time = readable({ hour: 0, minute: 0 }, function start(set) {
 export const clockHands = derived(
   time,
   ($time) => {
-    const { hour, minute } = $time;
+    const { hours, minutes, seconds } = $time;
+
+    const hoursOffset = mapLinear(minutes, 0, 60, 0, (Math.PI * 2) / 12);
+    const minutesOffset = mapLinear(seconds, 0, 60, 0, (Math.PI * 2) / 12);
 
     return {
-      hour: mapLinear(hour, 0, 12, 0, -Math.PI * 2),
-      minute: mapLinear(minute, 0, 60, 0, -Math.PI * 2)
+      hours: mapLinear(hours + hoursOffset, 0, 12, 0, -Math.PI * 2),
+      minutes: mapLinear(minutes + minutesOffset, 0, 60, 0, -Math.PI * 2),
+      seconds: mapLinear(seconds, 0, 60, 0, -Math.PI * 2)
     };
   },
-  { hour: 0, minute: 0 }
+  { hours: 0, minutes: 0, seconds: 0 }
 );
