@@ -18,31 +18,33 @@
   }
 </script>
 
-<T.AmbientLight color={'#ffc977'} intensity={0.05} />
-
 <!-- 
   Main sun light source intended for casting the shadow of the window
  -->
-<T.DirectionalLight color={'#ffc977'} intensity={1} position={[4, 10, 5]}>
+<T.DirectionalLight
+  color={'#ffffff'}
+  intensity={1}
+  position={[1.5, 2.5, 2]}
+  castShadow
+  shadow.camera.near={0}
+  shadow.camera.far={20}
+  shadow.camera.top={10}
+  shadow.camera.right={10}
+  shadow.camera.bottom={-10}
+  shadow.camera.left={-10}
+  shadow.radius={2.5}
+  shadow.blurSamples={24}
+  shadow.bias={-0.0002}
+>
   <T.Vector2 attach="shadow.mapSize" args={[1024, 1024]} />
 </T.DirectionalLight>
 
 <!-- 
   Light source for the room's interior
+  #f7fdff
+  #ffe8da
  -->
-<T.DirectionalLight
-  color={'#ffedd3'}
-  intensity={1}
-  position={[1, 2, 1.5]}
-  castShadow
-  shadow.camera.near={0}
-  shadow.camera.far={8}
-  shadow.camera.top={10}
-  shadow.camera.right={10}
-  shadow.camera.bottom={-10}
-  shadow.camera.left={-10}
-  shadow.radius={2}
->
+<T.DirectionalLight color={'#ffe8da'} intensity={0.7} position={[4, 10, 5]}>
   <T.Vector2 attach="shadow.mapSize" args={[1024, 1024]} />
 </T.DirectionalLight>
 

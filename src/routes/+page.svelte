@@ -33,13 +33,22 @@
   }}>Switch</button
 >
 {#if pageIsReady}
-  <World />
-  <Animator />
-
-  <Content />
+  <div class:is-day={!$isNight} class:is-night={$isNight}>
+    <World />
+    <Animator />
+    <Content />
+  </div>
 {/if}
 
 <style>
+  .is-day {
+    background-color: #254083;
+  }
+
+  .is-night {
+    background-color: #000215;
+  }
+
   button {
     position: fixed;
     top: 0;

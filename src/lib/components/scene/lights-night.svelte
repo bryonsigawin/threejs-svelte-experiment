@@ -1,23 +1,32 @@
+<script>
+  import { T } from '@threlte/core';
+</script>
+
+<!--
+  Room ambient light
+-->
+<T.DirectionalLight color={'#ffffff'} intensity={0.02} position={[2, 4, 5]} />
+
 <!-- 
-  Main sun light source intended for casting the shadow of the window
+  Room sort-of rim lights
  -->
-<T.DirectionalLight color={'#ffffff'} intensity={0.03} position={[4, 10, 5]}>
+<T.DirectionalLight color={'#ffa454'} intensity={0.03} position={[0.5, 4, 0]}>
   <T.Vector2 attach="shadow.mapSize" args={[1024, 1024]} />
 </T.DirectionalLight>
 
-<!-- 
-  Light source for the room's interior
- -->
-<T.DirectionalLight color={'#ff9b40'} intensity={0.1} position={[0.5, 4, 0]}>
-  <T.Vector2 attach="shadow.mapSize" args={[1024, 1024]} />
-</T.DirectionalLight>
+<!--
+  Lamp light
+  note: light cone is coming from ./elements
+-->
+<T.SpotLight position={[-4, 2.5, -1]} intensity={0.5} color={'#ff9b40'} angle={Math.PI / 6.1} />
 
 <T.SpotLight
-  let:ref={nightLight}
-  position={[-4, 2.5, -1]}
-  intensity={0.5}
-  color={'#ff9b40'}
-  angle={Math.PI / 6.1}
->
-  <!-- <Three type={new SpotLightHelper(nightLight)} /> -->
-</T.SpotLight>
+  position={[-1.5, 2.5, 10]}
+  distance={10}
+  intensity={3}
+  penumbra={0}
+  angle={Math.PI / 4}
+  color={'#96a1ce'}
+/>
+
+<T.PointLight position={[-2.83, 3.43, -5.8]} color={'#ffe9d6'} intensity={0.01} distance={0.35} decay={0.1} />

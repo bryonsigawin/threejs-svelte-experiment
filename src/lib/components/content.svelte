@@ -195,11 +195,11 @@
   @media screen and (max-width: 768px) {
     .layout {
       display: block;
-      padding-top: 30vh;
     }
 
     main {
       padding: 0 1rem;
+      margin-top: 90vw;
     }
 
     .intro-line-1 {
