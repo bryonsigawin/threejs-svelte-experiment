@@ -29,4 +29,10 @@
 
     background: hsl(0 0% 10%);
   }
+
+  @media screen and (max-width: 768px) {
+    div {
+      height: 100vw;
+    }
+  }
 </style>

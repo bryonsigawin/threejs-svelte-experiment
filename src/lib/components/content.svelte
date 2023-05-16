@@ -191,4 +191,28 @@
   .page-link:hover {
     opacity: 1;
   }
+
+  @media screen and (max-width: 768px) {
+    .layout {
+      display: block;
+      padding-top: 30vh;
+    }
+
+    main {
+      padding: 0 1rem;
+    }
+
+    .intro-line-1 {
+      font-size: 1.8rem;
+      letter-spacing: -1px;
+    }
+
+    .intro-line-2 {
+      font-size: 1rem;
+    }
+
+    .page-link {
+      opacity: 1;
+    }
+  }
 </style>

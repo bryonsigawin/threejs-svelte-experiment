@@ -84,17 +84,12 @@
   }
 
   onMount(() => {
-    if (window.innerWidth > 512) parallaxEnabled.set(true);
-
-    /**
-     * Configure entry animation
-     */
     const timeline = anime.timeline();
 
     timeline
       .add({
         targets: _cameraPan,
-        value: [4, 0],
+        value: [1, 0],
         duration: 6000,
         delay: 500,
         easing: 'easeInOutQuart',

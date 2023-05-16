@@ -5,6 +5,8 @@ export const entryComplete = writable(false);
 export const cameraPan = writable({ value: 0 });
 export const cursorScale = writable({ value: 0 });
 
+export const isProbablyMobile = writable(false);
+
 /**
  * mouse position holders
  */
@@ -24,7 +26,7 @@ export const cursorPosition = writable({ ...lerpedMousePosition });
 /**
  * Parallax effect
  */
-export const parallaxEnabled = writable(false);
+export const parallaxEnabled = derived(isProbablyMobile, (value) => !value);
 export const parallaxShift = writable({ ...lerpedMousePosition });
 
 // shifting of the 3d world
