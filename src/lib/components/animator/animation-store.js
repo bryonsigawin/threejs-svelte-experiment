@@ -24,6 +24,7 @@ export const cursorPosition = writable({ ...lerpedMousePosition });
 /**
  * Parallax effect
  */
+export const parallaxEnabled = writable(false);
 export const parallaxShift = writable({ ...lerpedMousePosition });
 
 // shifting of the 3d world

@@ -6,6 +6,7 @@
   import {
     mouseRawPosition,
     cursorPosition,
+    parallaxEnabled,
     parallaxShift,
     entryComplete,
     cameraPan,
@@ -15,6 +16,9 @@
   let _cameraPan = $cameraPan;
   let _cursorScale = $cursorScale;
 
+  let raf;
+  let listenersActivated;
+
   const calculateParallaxShift = (mousePosition) => {
     const normalizedX = mapLinear(mousePosition.x, 0, window.innerWidth, 1, -1);
     const normalizedY = mapLinear(mousePosition.y, 0, window.innerHeight, 1, -1);
@@ -22,28 +26,32 @@
     return { x: normalizedX, y: normalizedY };
   };
 
-  onMount(() => {
+  const trackMouse = (e) => {
+    const position = {
+      x: e.clientX,
+      y: e.clientY
+    };
+
+    if ($mouseRawPosition.x === -1 && $mouseRawPosition.y === -1) {
+      cursorPosition.update((values) => ({ ...values, current: position }));
+      parallaxShift.update((values) => ({ ...values, next: calculateParallaxShift(position) }));
+    }
+
+    mouseRawPosition.set(position);
+  };
+
+  $: if ($parallaxEnabled && !listenersActivated) {
+    listenersActivated = true;
+
     /**
      * Setup mouse listener for parallax
      */
-    window.addEventListener('mousemove', function trackMouse(e) {
-      const position = {
-        x: e.clientX,
-        y: e.clientY
-      };
-
-      if ($mouseRawPosition.x === -1 && $mouseRawPosition.y === -1) {
-        cursorPosition.update((values) => ({ ...values, current: position }));
-        // parallaxShift.update((values) => ({ ...values, next: calculateParallaxShift(position) }));
-      }
-
-      mouseRawPosition.set(position);
-    });
+    window.addEventListener('mousemove', trackMouse);
 
     /**
      * Setup parallaxing
      */
-    const raf = requestAnimationFrame(function animate() {
+    raf = requestAnimationFrame(function animate() {
       if ($entryComplete) {
         /**
          * mouse cursor
@@ -73,6 +81,10 @@
 
       requestAnimationFrame(animate);
     });
+  }
+
+  onMount(() => {
+    if (window.innerWidth > 512) parallaxEnabled.set(true);
 
     /**
      * Configure entry animation
@@ -134,8 +146,10 @@
       );
 
     return () => {
-      window.removeEventListener('mousemove', trackMouse);
-      cancelAnimationFrame(raf);
+      if ($parallaxEnabled) {
+        window.removeEventListener('mousemove', trackMouse);
+        cancelAnimationFrame(raf);
+      }
     };
   });
 </script>
