@@ -1,38 +1,29 @@
 <script>
   import { T, useFrame } from '@threlte/core';
   import { VideoTexture } from 'three';
+  import { isProbablyMobile } from '../animator/animation-store';
 
-  const video = document.getElementById('video');
-  video.play();
+  let texture;
 
-  const texture = new VideoTexture(video);
-  texture.needsUpdate = true;
+  $: if (!$isProbablyMobile) {
+    const video = document.getElementById('video');
+    video.play();
 
-  useFrame(() => {
+    texture = new VideoTexture(video);
     texture.needsUpdate = true;
-  });
+
+    useFrame(() => {
+      texture.needsUpdate = true;
+    });
+  }
 </script>
 
-<T.AmbientLight intensity={0.05} />
+<T.AmbientLight color={'#ffc977'} intensity={0.05} />
 
 <!-- 
   Main sun light source intended for casting the shadow of the window
  -->
-<T.DirectionalLight
-  color={'#ffc977'}
-  intensity={2}
-  position={[4, 10, 5]}
-  castShadow
-  shadow.camera.near={0.5}
-  shadow.camera.far={100}
-  shadow.camera.top={20}
-  shadow.camera.right={20}
-  shadow.camera.bottom={-20}
-  shadow.camera.left={-20}
-  shadow.radius={1.5}
-  shadow.blurSamples={26}
-  shadow.bias={-0.0}
->
+<T.DirectionalLight color={'#ffc977'} intensity={1} position={[4, 10, 5]}>
   <T.Vector2 attach="shadow.mapSize" args={[1024, 1024]} />
 </T.DirectionalLight>
 
@@ -41,11 +32,11 @@
  -->
 <T.DirectionalLight
   color={'#ffedd3'}
-  intensity={0.8}
-  position={[0.5, 4, 1]}
+  intensity={1}
+  position={[1, 2, 1.5]}
   castShadow
-  shadow.camera.near={2}
-  shadow.camera.far={6}
+  shadow.camera.near={0}
+  shadow.camera.far={8}
   shadow.camera.top={10}
   shadow.camera.right={10}
   shadow.camera.bottom={-10}
@@ -58,25 +49,27 @@
 <!-- 
   Light source for casting caustics onto the wall
  -->
-<T.SpotLight
-  position={[0.5, 4, 8]}
-  target.position={[0.5, 4, 0]}
-  intensity={0.3}
-  color={'#ffffff'}
-  angle={Math.PI / 4}
-  penumbra={1}
-  distance={15}
-  map={texture}
-  castShadow
-  shadow.focus={0.6}
-  shadow.radius={1.5}
-  shadow.blurSamples={26}
-  shadow.bias={-0.0002}
-  shadow.camera.near={2}
-  shadow.camera.top={8}
-  shadow.camera.right={8}
-  shadow.camera.bottom={-8}
-  shadow.camera.left={-8}
->
-  <T.Vector2 attach="shadow.mapSize" args={[1024 * (16 / 9), 1024]} />
-</T.SpotLight>
+{#if !$isProbablyMobile}
+  <T.SpotLight
+    position={[0.5, 4, 8]}
+    target.position={[0.5, 4, 0]}
+    intensity={0.3}
+    color={'#ffffff'}
+    angle={Math.PI / 4}
+    penumbra={1}
+    distance={15}
+    map={texture}
+    castShadow
+    shadow.focus={0.6}
+    shadow.radius={1.5}
+    shadow.blurSamples={26}
+    shadow.bias={-0.0002}
+    shadow.camera.near={2}
+    shadow.camera.top={8}
+    shadow.camera.right={8}
+    shadow.camera.bottom={-8}
+    shadow.camera.left={-8}
+  >
+    <T.Vector2 attach="shadow.mapSize" args={[1024 * (16 / 9), 1024]} />
+  </T.SpotLight>
+{/if}
