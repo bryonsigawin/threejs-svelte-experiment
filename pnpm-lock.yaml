@@ -13,6 +13,9 @@ dependencies:
   modern-normalize:
     specifier: ^1.1.0
     version: 1.1.0
+  tweakpane:
+    specifier: ^3.1.9
+    version: 3.1.9
 
 devDependencies:
   '@dimforge/rapier3d-compat':
@@ -1474,6 +1477,10 @@ packages:
   /tslib@2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
     dev: true
+
+  /tweakpane@3.1.9:
+    resolution: {integrity: sha512-vMzh3X8uHo9HDY+9S9V0bc+UBScs8VYmMeOEW+BvynczV0aiLHweYv4eKpyoqpcRrQlkLhUsx8Dvv/1/qiCESg==}
+    dev: false
 
   /type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}

@@ -16,9 +16,9 @@
   import Content from '$lib/components/content.svelte';
   import World from '$lib/components/scene/world.svelte';
   import Animator from '$lib/components/animator/animator.svelte';
+  import Gui from '$lib/components/gui.svelte';
 
   import { isNight, isProbablyMobile } from '$lib/components/animator/animation-store';
-
   let pageIsReady = false;
 
   onMount(() => {
@@ -27,17 +27,14 @@
   });
 </script>
 
-<button
-  on:click={() => {
-    isNight.update((v) => !v);
-  }}>Switch</button
->
 {#if pageIsReady}
   <div class:is-day={!$isNight} class:is-night={$isNight}>
     <World />
     <Animator />
     <Content />
   </div>
+
+  <Gui />
 {/if}
 
 <style>
@@ -47,12 +44,5 @@
 
   .is-night {
     background-color: #000215;
-  }
-
-  button {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
   }
 </style>

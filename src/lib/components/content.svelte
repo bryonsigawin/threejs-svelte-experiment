@@ -106,7 +106,6 @@
 
     border-radius: 50%;
     background-color: white;
-
     pointer-events: none;
 
     transform: translate(calc(var(--position-x) - 50%), calc(var(--position-y) - 50%)) scale(var(--scale));
