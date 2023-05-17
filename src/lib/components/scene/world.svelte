@@ -27,10 +27,4 @@
     width: 100vw;
     height: 100vh;
   }
-
-  @media screen and (max-width: 768px) {
-    div {
-      height: 100vw;
-    }
-  }
 </style>

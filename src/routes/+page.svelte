@@ -17,8 +17,8 @@
   import World from '$lib/components/scene/world.svelte';
   import Animator from '$lib/components/animator/animator.svelte';
   import Gui from '$lib/components/gui.svelte';
+  import { isProbablyMobile } from '$lib/components/animator/animation-store';
 
-  import { isNight, isProbablyMobile } from '$lib/components/animator/animation-store';
   let pageIsReady = false;
 
   onMount(() => {
@@ -28,21 +28,8 @@
 </script>
 
 {#if pageIsReady}
-  <div class:is-day={!$isNight} class:is-night={$isNight}>
-    <World />
-    <Animator />
-    <Content />
-  </div>
-
+  <World />
+  <Animator />
+  <Content />
   <Gui />
 {/if}
-
-<style>
-  .is-day {
-    background-color: #254083;
-  }
-
-  .is-night {
-    background-color: #000215;
-  }
-</style>

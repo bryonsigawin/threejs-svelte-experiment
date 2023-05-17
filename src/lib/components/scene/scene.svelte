@@ -1,5 +1,7 @@
 <script>
-  import { T } from '@threlte/core';
+  import { T, useThrelte } from '@threlte/core';
+  import { Vector2 } from 'three';
+
   import {
     isProbablyMobile,
     cameraPan,
@@ -23,7 +25,7 @@
   let cameraPosition = { ...initialCameraPosition };
 
   const panAmount = 4;
-  const cameraFov = 30;
+  let cameraFov = isMobile ? 70 : 30;
 
   /**
    * Pan camera
@@ -47,6 +49,18 @@
     worldShift.subscribe(({ x, y }) => {
       cameraPosition.x = initialCameraPosition.x + x;
       cameraPosition.y = initialCameraPosition.y + y;
+    });
+  }
+
+  $: if (isMobile) {
+    const { renderer, camera } = useThrelte();
+
+    let rendererSize = new Vector2();
+    renderer.getSize(rendererSize);
+
+    camera.subscribe((cam) => {
+      cam.setViewOffset(rendererSize.x, rendererSize.y, 0, 210, rendererSize.x, rendererSize.y);
+      cam.updateProjectionMatrix();
     });
   }
 </script>
