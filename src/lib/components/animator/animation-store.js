@@ -41,18 +41,15 @@ export const contentShift = derived(parallaxShift, ({ current }) => ({
   y: current.y * 30
 }));
 
-export const isNight = writable(false);
-
 /**
- * Clock movements
+ * Time related controls
  */
 export const time = readable({ hours: 0, minutes: 0, seconds: 0 }, function start(set) {
   const interval = setInterval(() => {
     const date = new Date();
-    const hours = date.getHours();
 
     set({
-      hours: hours > 12 ? hours - 12 : hours,
+      hours: date.getHours(),
       minutes: date.getMinutes(),
       seconds: date.getSeconds()
     });
@@ -63,10 +60,29 @@ export const time = readable({ hours: 0, minutes: 0, seconds: 0 }, function star
   };
 });
 
+// export const time = writable({ hours: 0, minutes: 0, seconds: 0 }, (set) => {
+//   const date = new Date();
+
+//   set({
+//     hours: date.getHours(),
+//     minutes: date.getMinutes(),
+//     seconds: date.getSeconds()
+//   });
+// });
+
+// controls whether it's "night"
+// night lights are turned on earlier to smoothen the lighting transition
+export const enableNightLights = derived(time, ({ hours }) => hours > 18 || hours < 5);
+export const isNight = derived(time, ({ hours }) => hours > 20 || hours < 5);
+
+// clock hands movement
 export const clockHands = derived(
   time,
   ($time) => {
-    const { hours, minutes, seconds } = $time;
+    const { hours: _hours, minutes, seconds } = $time;
+
+    // ensure hours is a value between 0 - 12
+    const hours = _hours > 12 ? _hours - 12 : _hours;
 
     const hoursOffset = mapLinear(minutes, 0, 60, 0, (Math.PI * 2) / 12);
     const minutesOffset = mapLinear(seconds, 0, 60, 0, (Math.PI * 2) / 12);

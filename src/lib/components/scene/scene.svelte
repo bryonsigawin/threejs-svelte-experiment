@@ -5,7 +5,8 @@
     cameraPan,
     entryComplete,
     isNight,
-    worldShift
+    worldShift,
+    enableNightLights
   } from './../animator/animation-store';
 
   import Elements from './elements.svelte';
@@ -52,10 +53,12 @@
 
 <T.PerspectiveCamera fov={cameraFov} position={[...Object.values(cameraPosition)]} makeDefault />
 
-{#if $isNight}
-  <LightsNight />
-{:else}
+{#if !$isNight}
   <LightsDay />
+{/if}
+
+{#if enableNightLights}
+  <LightsNight />
 {/if}
 
 <Elements />
