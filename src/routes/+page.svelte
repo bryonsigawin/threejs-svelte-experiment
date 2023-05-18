@@ -17,6 +17,7 @@
   import World from '$lib/components/scene/world.svelte';
   import Animator from '$lib/components/animator/animator.svelte';
   import Gui from '$lib/components/gui.svelte';
+  import Cursor from '$lib/components/cursor.svelte';
   import { isProbablyMobile } from '$lib/components/animator/animation-store';
 
   let pageIsReady = false;
@@ -31,5 +32,10 @@
   <World />
   <Animator />
   <Content />
+
+  {#if !$isProbablyMobile}
+    <Cursor />
+  {/if}
+
   <Gui />
 {/if}

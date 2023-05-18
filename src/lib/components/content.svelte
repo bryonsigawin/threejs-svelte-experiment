@@ -1,11 +1,14 @@
 <script>
   import anime from 'animejs';
-  import { entryComplete, cursorScale, cursorPosition, contentShift } from './animator/animation-store';
+  import { entryComplete, cursorScale, contentShift } from './animator/animation-store';
   import SplitSentence from './split-sentence.svelte';
 
   let animation;
   let _cursorScale = { ...$cursorScale };
 
+  /**
+   * TODO: this can 100% be refactored
+   */
   const animateOnHover = (reverse = false) => {
     if (animation) animation.pause();
 
@@ -73,29 +76,7 @@
   </div>
 </div>
 
-<div
-  class="cursor"
-  style="--position-x: {$cursorPosition.current.x}px; --position-y: {$cursorPosition.current
-    .y}px; --scale: {$cursorScale.value}"
-/>
-
 <style>
-  .cursor {
-    position: fixed;
-    z-index: 3;
-    top: 0;
-    left: 0;
-
-    width: 20px;
-    height: 20px;
-
-    border-radius: 50%;
-    background-color: white;
-    pointer-events: none;
-
-    transform: translate(calc(var(--position-x) - 50%), calc(var(--position-y) - 50%)) scale(var(--scale));
-  }
-
   .freeze {
     width: 100vw;
     height: 100vh;
