@@ -42,31 +42,34 @@
         </h2>
       </div>
       <div class="page-links">
-        <a
+        <!-- <a
           class="page-link"
           href="/"
           on:mouseenter={() => animateOnHover(false)}
           on:mouseleave={() => animateOnHover(true)}
         >
           about
-        </a>
+        </a> -->
         <a
           class="page-link"
-          href="/"
+          href="/bryon_sigawin_cv_2023.pdf"
+          target="_blank"
           on:mouseenter={() => animateOnHover(false)}
           on:mouseleave={() => animateOnHover(true)}
           >resume
         </a>
         <a
           class="page-link"
-          href="/"
+          href="https://www.linkedin.com/in/bryon-sigawin/"
+          target="_blank"
           on:mouseenter={() => animateOnHover(false)}
           on:mouseleave={() => animateOnHover(true)}
           >linkedin
         </a>
         <a
           class="page-link"
-          href="/"
+          href="https://github.com/bryonsigawin"
+          target="_blank"
           on:mouseenter={() => animateOnHover(false)}
           on:mouseleave={() => animateOnHover(true)}
           >github
