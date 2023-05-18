@@ -71,7 +71,7 @@
   <LightsDay />
 {/if}
 
-{#if enableNightLights}
+{#if $enableNightLights}
   <LightsNight />
 {/if}
 
