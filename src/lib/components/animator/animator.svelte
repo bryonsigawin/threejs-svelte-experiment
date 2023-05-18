@@ -17,7 +17,7 @@
   let _cursorScale = $cursorScale;
 
   let raf;
-  let listenersActivated;
+  let listenersActivated = false;
 
   const calculateParallaxShift = (mousePosition) => {
     const normalizedX = mapLinear(mousePosition.x, 0, window.innerWidth, 1, -1);
