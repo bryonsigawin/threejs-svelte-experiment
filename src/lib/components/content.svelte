@@ -1,6 +1,7 @@
 <script>
   import anime from 'animejs';
   import { entryComplete, cursorScale, cursorPosition, contentShift } from './animator/animation-store';
+  import SplitSentence from './split-sentence.svelte';
 
   let animation;
   let _cursorScale = { ...$cursorScale };
@@ -31,26 +32,10 @@
     <main>
       <div>
         <h1 class="intro-line-1">
-          {#each "Hey there, I'm Bryon Sigawin" as character}
-            <span>
-              {#if character === ' '}
-                &nbsp;
-              {:else}
-                {character}
-              {/if}
-            </span>
-          {/each}
+          <SplitSentence sentence="Hey there, I'm Bryon Sigawin" />
         </h1>
         <h2 class="intro-line-2">
-          {#each 'front-end developer with a penchant for ux and motion design.' as character}
-            <span>
-              {#if character === ' '}
-                &nbsp;
-              {:else}
-                {character}
-              {/if}
-            </span>
-          {/each}
+          <SplitSentence sentence="front-end developer with a penchant for ux and motion design." />
         </h2>
       </div>
       <div class="page-links">
@@ -126,11 +111,14 @@
   .layout {
     position: relative;
     z-index: 2;
+
     display: grid;
     grid-template-columns: 47.5vw 1fr;
     align-items: center;
 
     min-height: 100vh;
+    padding: 0 1rem;
+
     overflow: hidden;
   }
 
@@ -152,7 +140,6 @@
     font-style: italic;
 
     margin: 0;
-    overflow: hidden;
   }
 
   .intro-line-2 {
@@ -160,12 +147,6 @@
     font-weight: 200;
 
     margin: 0;
-    overflow: hidden;
-  }
-
-  .intro-line-1 span,
-  .intro-line-2 span {
-    display: inline-block;
   }
 
   .page-links {

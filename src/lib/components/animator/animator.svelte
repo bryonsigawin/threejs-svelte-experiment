@@ -111,7 +111,7 @@
       })
       .add(
         {
-          targets: '.intro-line-1 span',
+          targets: '.intro-line-1 .character',
           translateY: ['100%', 0],
           duration: 1100,
           delay: anime.stagger(20),
@@ -121,7 +121,7 @@
       )
       .add(
         {
-          targets: '.intro-line-2 span',
+          targets: '.intro-line-2 .character',
           translateY: ['100%', 0],
           duration: 700,
           delay: anime.stagger(5),
