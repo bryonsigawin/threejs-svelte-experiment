@@ -7,19 +7,19 @@
 
   import { isProbablyMobile, time } from '../animator/animation-store';
 
-  let texture;
+  // let texture;
 
-  $: if (!$isProbablyMobile) {
-    const video = document.getElementById('video');
-    video.play();
+  // $: if (!$isProbablyMobile) {
+  //   const video = document.getElementById('video');
+  //   video.play();
 
-    texture = new VideoTexture(video);
-    texture.needsUpdate = true;
+  //   texture = new VideoTexture(video);
+  //   texture.needsUpdate = true;
 
-    useFrame(() => {
-      texture.needsUpdate = true;
-    });
-  }
+  //   useFrame(() => {
+  //     texture.needsUpdate = true;
+  //   });
+  // }
 
   let sunOffset = 0;
 
@@ -84,7 +84,7 @@
 <!-- 
   Light source for casting caustics onto the wall
  -->
-{#if !$isProbablyMobile}
+<!-- {#if !$isProbablyMobile}
   <T.SpotLight
     position={[0.5, 4, 8]}
     target.position={[0.5, 4, 0]}
@@ -107,4 +107,4 @@
   >
     <T.Vector2 attach="shadow.mapSize" args={[1024 * (16 / 9), 1024]} />
   </T.SpotLight>
-{/if}
+{/if} -->
