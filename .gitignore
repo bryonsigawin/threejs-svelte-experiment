@@ -17,3 +17,6 @@ BL_proxy
 # Tranform outputs
 /Scene_colored.svelte
 /Scene.svelte
+
+# netlify outputs
+.netlify
