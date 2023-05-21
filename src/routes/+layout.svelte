@@ -39,6 +39,7 @@
 
 {#if pageIsReady}
   <World />
+
   <div class="layout">
     <div class="content-spacer" />
 
@@ -56,7 +57,7 @@
   {/if}
 
   <!-- Turn on as needed -->
-  <Gui />
+  <!-- <Gui /> -->
 {/if}
 
 <style>

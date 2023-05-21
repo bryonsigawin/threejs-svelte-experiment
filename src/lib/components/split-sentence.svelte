@@ -1,16 +1,16 @@
 <script>
   import { quintInOut } from 'svelte/easing';
-  import { fade } from 'svelte/transition';
 
   export let sentence = '';
-  export let inDuration = 800;
-  export let inDelay = 0;
-  export let inStagger = 0;
-  0;
+  export let mode = 'words';
 
-  export let outDuration = 800;
-  export let outDelay = 0;
+  export let inDuration = 600;
+  export let inStagger = 10;
+  export let inDelay = 0;
+
+  export let outDuration = 600;
   export let outStagger = 0;
+  export let outDelay = 0;
 
   let animPosition = 0;
 
@@ -38,24 +38,27 @@
   };
 </script>
 
-<div in:fade>
-  {#each sentence.split(' ') as word}
-    <span class="word">
+{#each sentence.split(' ') as word}
+  <span class="words">
+    {#if mode === 'characters'}
       {#each word as character}
         <span class="character" in:slideAnim out:slideAnim={{ out: true }}>{character}</span>
       {/each}
-      <span class="empty">&#x200b;</span>
-    </span>
-  {/each}
-</div>
+    {:else}
+      <span class="word" in:slideAnim out:slideAnim={{ out: true }}>{word}</span>
+    {/if}
+    <span class="empty">&#x200b;</span>
+  </span>
+{/each}
 
 <style>
+  .words,
   .word,
   .character {
     display: inline-block;
   }
 
-  .word {
+  .words {
     overflow: hidden;
   }
 </style>

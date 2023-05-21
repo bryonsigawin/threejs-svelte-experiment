@@ -1,5 +1,6 @@
 <script>
   import { fade } from 'svelte/transition';
+
   import SplitSentence from '$lib/components/split-sentence.svelte';
 </script>
 
@@ -8,28 +9,28 @@
     <h1 class="intro-line-1">
       <SplitSentence
         sentence="Hey there, I'm Bryon Sigawin"
-        inStagger={20}
+        mode="characters"
         inDuration={1000}
-        outDuration={600}
+        inStagger={20}
       />
     </h1>
     <h2 class="intro-line-2">
       <SplitSentence
         sentence="front-end developer with a penchant for ux and motion design."
-        inDelay={300}
+        mode="characters"
         inDuration={600}
         inStagger={7}
-        outDuration={600}
-        outDelay={85}
+        inDelay={300}
+        outDelay={50}
       />
     </h2>
   </div>
 
   <div class="page-links" transition:fade={{ duration: 400 }}>
-    <a class="page-link" href="/about"> about </a>
-    <a class="page-link" href="/bryon_sigawin_cv_2023.pdf" target="_blank">resume </a>
-    <a class="page-link" href="https://www.linkedin.com/in/bryon-sigawin/" target="_blank">linkedin </a>
-    <a class="page-link" href="https://github.com/bryonsigawin" target="_blank">github </a>
+    <a class="page-link" href="/about">about</a>
+    <a class="page-link" href="/bryon_sigawin_cv_2023.pdf" target="_blank">resume</a>
+    <a class="page-link" href="https://www.linkedin.com/in/bryon-sigawin/" target="_blank">linkedin</a>
+    <a class="page-link" href="https://github.com/bryonsigawin" target="_blank">github</a>
   </div>
 </div>
 
@@ -40,7 +41,7 @@
     justify-content: space-between;
 
     gap: 4rem;
-    margin-top: 10rem;
+    margin-top: 10vh;
   }
 
   .intro-line-1 {
