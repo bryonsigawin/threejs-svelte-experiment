@@ -34,17 +34,17 @@
     easing: quartInOut
   });
 
-  cameraPan.set(defaultCameraPosition.x);
+  cameraPan.set(0);
 
   const { stop: stopShifting } = useFrame(() => {
     let { current, next, amount } = cameraShift;
     current.x = lerp(current.x, next.x, 0.01);
     current.y = lerp(current.y, next.y, 0.01);
 
-    next.x = $cameraPan + $mousePosition.normalized.x * amount.x;
+    next.x = $mousePosition.normalized.x * amount.x;
     next.y = $mousePosition.normalized.y * amount.y;
 
-    cameraPosition.x = defaultCameraPosition.x + current.x;
+    cameraPosition.x = defaultCameraPosition.x + $cameraPan + current.x;
     cameraPosition.y = defaultCameraPosition.y + current.y;
 
     cameraShift = cameraShift;

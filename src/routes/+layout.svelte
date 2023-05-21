@@ -119,15 +119,19 @@
 
   @media screen and (max-width: 768px) {
     .layout {
-      display: block;
+      grid-template-areas: 'header' 'main' 'footer';
+      grid-template-rows: auto 1fr auto;
+      grid-template-columns: unset;
+
+      align-items: end;
     }
 
     main {
       padding: 0 1rem;
-      margin-top: 90vw;
+      margin-bottom: 10rem;
     }
 
-    .footer {
+    footer {
       text-align: center;
     }
   }
