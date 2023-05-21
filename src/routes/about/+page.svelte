@@ -3,22 +3,64 @@
 </script>
 
 <div>
+  <h1>
+    <SplitSentence sentence="bit more about me," inStagger={5} />
+  </h1>
   <p>
     <SplitSentence
-      sentence="Quisque posuere ipsum et turpis viverra auctor. Suspendisse venenatis tempor dolor, et porta risus pharetra ac."
+      sentence="I've spent the past 7 years specializing in front-end web development. Beyond writing code, I've also had a hand in the designing the UI, architecting systems, and being the lead maintainer of the codebase."
       inStagger={5}
-    />
-    <br />
-    <SplitSentence
-      sentence="Quisque posuere ipsum et turpis viverra auctor. Suspendisse venenatis tempor dolor, et porta risus pharetra ac."
-      inStagger={5}
-      inDelay={100}
+      inDelay={25}
     />
   </p>
+
+  <p>
+    <SplitSentence
+      sentence="Though primarily a dev, I'm a big fan of motion and U/UX design, and am always searching for ways to craft unique experiences with animations and micro-interactions."
+      inStagger={5}
+      inDelay={50}
+    />
+  </p>
+
+  <p>
+    <SplitSentence
+      sentence="Outside of work, I like brewing coffee and listening to music for long sessions."
+      inStagger={5}
+      inDelay={75}
+    />
+  </p>
+
+  <a href="/"><SplitSentence sentence="Go back" inStagger={5} inDelay={100} /></a>
 </div>
 
 <style>
+  h1 {
+    font-weight: 200;
+    font-style: italic;
+  }
+
   p {
     font-weight: 200;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  a {
+    display: block;
+
+    font-size: 0.95rem;
+    font-weight: 200;
+
+    color: rgb(219, 219, 219);
+    text-decoration: none;
+
+    transition: cubic-bezier(0.77, 0, 0.175, 1) 300ms opacity;
+    opacity: 0.7;
+
+    margin-top: 3rem;
+  }
+
+  a:hover {
+    opacity: 1;
   }
 </style>
