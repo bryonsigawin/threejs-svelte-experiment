@@ -24,7 +24,7 @@
 
   let cameraShift = {
     amount: { x: 0.2, y: 0.2 },
-    current: { x: panAmount, y: 0 },
+    current: { x: 0, y: 0 },
     next: { x: 0, y: 0 }
   };
 
@@ -34,26 +34,35 @@
     easing: quartInOut
   });
 
+  const { start: startParallax, stop: stopParallax } = useFrame(
+    () => {
+      let { current, next, amount } = cameraShift;
+
+      current.x = lerp(current.x, next.x, 0.01);
+      current.y = lerp(current.y, next.y, 0.01);
+
+      next.x = $mousePosition.normalized.x * amount.x;
+      next.y = $mousePosition.normalized.y * amount.y;
+
+      if ($entryComplete) {
+        cameraPosition.x = defaultCameraPosition.x + cameraShift.current.x;
+        cameraPosition.y = defaultCameraPosition.y + cameraShift.current.y;
+      }
+    },
+    { autostart: false }
+  );
+
   cameraPan.set(0);
 
-  const { stop: stopShifting } = useFrame(() => {
-    let { current, next, amount } = cameraShift;
-    current.x = lerp(current.x, next.x, 0.01);
-    current.y = lerp(current.y, next.y, 0.01);
+  const unsubCameraPan = cameraPan.subscribe((value) => {
+    cameraPosition.x = defaultCameraPosition.x + value + cameraShift.current.x;
+    cameraPosition.y = defaultCameraPosition.y + cameraShift.current.y;
 
-    next.x = $mousePosition.normalized.x * amount.x;
-    next.y = $mousePosition.normalized.y * amount.y;
-
-    cameraPosition.x = defaultCameraPosition.x + $cameraPan + current.x;
-    cameraPosition.y = defaultCameraPosition.y + current.y;
-
-    cameraShift = cameraShift;
-    cameraPosition = cameraPosition;
+    if (value === 0) {
+      unsubCameraPan();
+      entryComplete.set(true);
+    }
   });
-
-  $: if ($cameraPan === 0) {
-    entryComplete.set(true);
-  }
 
   $: if (isMobile) {
     const { renderer, camera } = useThrelte();
@@ -65,10 +74,12 @@
       cam.setViewOffset(rendererSize.x, rendererSize.y, 0, 210, rendererSize.x, rendererSize.y);
       cam.updateProjectionMatrix();
     });
+  } else {
+    startParallax();
   }
 
   onDestroy(() => {
-    stopShifting();
+    stopParallax();
   });
 </script>
 

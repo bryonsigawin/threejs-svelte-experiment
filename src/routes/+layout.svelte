@@ -65,7 +65,7 @@
   {/if}
 
   <!-- Turn on as needed -->
-  <!-- <Gui /> -->
+  <Gui />
 {/if}
 
 <style>

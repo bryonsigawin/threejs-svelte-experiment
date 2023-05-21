@@ -5,8 +5,6 @@
   import Scene from './scene.svelte';
 </script>
 
-<video id="video" src="textures/caustics_edited.mkv" muted="true" playsinline="true" loop controls />
-
 <div>
   <Canvas shadowMapType={VSMShadowMap}>
     <Scene />
@@ -14,10 +12,6 @@
 </div>
 
 <style>
-  video {
-    display: none;
-  }
-
   div {
     position: fixed;
 
