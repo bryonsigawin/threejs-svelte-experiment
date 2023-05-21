@@ -1,75 +1,35 @@
 <script>
   import { fade } from 'svelte/transition';
-
-  import anime from 'animejs';
-
-  import { cursorScale } from '$lib/components/animator/animation-store';
   import SplitSentence from '$lib/components/split-sentence.svelte';
-
-  let animation;
-  let _cursorScale = { ...$cursorScale };
-
-  /**
-   * TODO: this can 100% be refactored
-   */
-  const animateOnHover = (reverse = false) => {
-    if (animation) animation.pause();
-
-    animation = anime({
-      targets: _cursorScale,
-      value: [$cursorScale.value, reverse ? 1 : 0.3],
-      duration: 700,
-      easing: 'easeOutQuart',
-      update: () => {
-        cursorScale.set(_cursorScale);
-      }
-    });
-  };
 </script>
 
 <div class="content">
-  <div class="headline" transition:fade>
+  <div class="headline">
     <h1 class="intro-line-1">
-      <SplitSentence sentence="Hey there, I'm Bryon Sigawin" />
+      <SplitSentence
+        sentence="Hey there, I'm Bryon Sigawin"
+        inStagger={20}
+        inDuration={1000}
+        outDuration={600}
+      />
     </h1>
     <h2 class="intro-line-2">
-      <SplitSentence sentence="front-end developer with a penchant for ux and motion design." />
+      <SplitSentence
+        sentence="front-end developer with a penchant for ux and motion design."
+        inDelay={300}
+        inDuration={600}
+        inStagger={7}
+        outDuration={600}
+        outDelay={85}
+      />
     </h2>
   </div>
 
-  <div class="page-links">
-    <!-- <a
-      class="page-link"
-      href="/about"
-      on:mouseenter={() => animateOnHover(false)}
-      on:mouseleave={() => animateOnHover(true)}
-    >
-      about
-    </a> -->
-    <a
-      class="page-link"
-      href="/bryon_sigawin_cv_2023.pdf"
-      target="_blank"
-      on:mouseenter={() => animateOnHover(false)}
-      on:mouseleave={() => animateOnHover(true)}
-      >resume
-    </a>
-    <a
-      class="page-link"
-      href="https://www.linkedin.com/in/bryon-sigawin/"
-      target="_blank"
-      on:mouseenter={() => animateOnHover(false)}
-      on:mouseleave={() => animateOnHover(true)}
-      >linkedin
-    </a>
-    <a
-      class="page-link"
-      href="https://github.com/bryonsigawin"
-      target="_blank"
-      on:mouseenter={() => animateOnHover(false)}
-      on:mouseleave={() => animateOnHover(true)}
-      >github
-    </a>
+  <div class="page-links" transition:fade={{ duration: 400 }}>
+    <a class="page-link" href="/about"> about </a>
+    <a class="page-link" href="/bryon_sigawin_cv_2023.pdf" target="_blank">resume </a>
+    <a class="page-link" href="https://www.linkedin.com/in/bryon-sigawin/" target="_blank">linkedin </a>
+    <a class="page-link" href="https://github.com/bryonsigawin" target="_blank">github </a>
   </div>
 </div>
 
@@ -123,15 +83,6 @@
   }
 
   @media screen and (max-width: 768px) {
-    .layout {
-      display: block;
-    }
-
-    main {
-      padding: 0 1rem;
-      margin-top: 90vw;
-    }
-
     .intro-line-1 {
       font-size: 1.8rem;
       letter-spacing: -1px;

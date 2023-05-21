@@ -1,42 +1,48 @@
 <script>
   import { Pane } from 'tweakpane';
-  import { isNight, time } from './animator/animation-store';
+
+  import { entryComplete } from './../stores/animation';
+  import { currentTime, isNight } from './../stores/time';
 
   const panel = new Pane();
 
   let PARAMS = {
-    nightMode: $isNight,
+    isNight: $isNight,
+    entryComplete: $entryComplete,
     time: {}
   };
 
-  time.subscribe((value) => {
+  currentTime.subscribe((value) => {
     PARAMS.time.hours = value.hours;
     PARAMS.time.minutes = value.minutes;
     PARAMS.time.seconds = value.seconds;
+
+    panel.refresh();
   });
 
   isNight.subscribe((value) => {
-    PARAMS.nightMode = value;
+    PARAMS.isNight = value;
+  });
+
+  entryComplete.subscribe((value) => {
+    PARAMS.entryComplete = value;
   });
 
   const themeFolder = panel.addFolder({ title: 'Theme' });
-  themeFolder.addMonitor(PARAMS, 'nightMode', { label: 'Is night' });
+  themeFolder.addMonitor(PARAMS, 'isNight');
+  themeFolder.addMonitor(PARAMS, 'entryComplete');
 
   const timeFolder = panel.addFolder({ title: 'Time' });
 
-  timeFolder.addMonitor(PARAMS.time, 'hours');
-  timeFolder.addMonitor(PARAMS.time, 'minutes');
-  timeFolder.addMonitor(PARAMS.time, 'seconds');
-
-  // timeFolder.addInput(PARAMS.time, 'hours', { min: 0, max: 24 }).on('change', ({ value }) => {
-  //   time.update((v) => ({ ...v, hours: value }));
-  // });
-  // timeFolder.addInput(PARAMS.time, 'minutes', { min: 0, max: 60 }).on('change', ({ value }) => {
-  //   time.update((v) => ({ ...v, minutes: value }));
-  // });
-  // timeFolder.addInput(PARAMS.time, 'seconds', { min: 0, max: 60 }).on('change', ({ value }) => {
-  //   time.update((v) => ({ ...v, seconds: value }));
-  // });
+  timeFolder.addInput(PARAMS.time, 'hours', { min: 0, max: 24 }).on('change', ({ value }) => {
+    currentTime.update((v) => ({ ...v, hours: value }));
+  });
+  timeFolder.addInput(PARAMS.time, 'minutes', { min: 0, max: 60 }).on('change', ({ value }) => {
+    currentTime.update((v) => ({ ...v, minutes: value }));
+  });
+  timeFolder.addInput(PARAMS.time, 'seconds', { min: 0, max: 60 }).on('change', ({ value }) => {
+    currentTime.update((v) => ({ ...v, seconds: value }));
+  });
 
   (function () {
     var script = document.createElement('script');

@@ -16,37 +16,39 @@
   import Gui from '$lib/components/gui.svelte';
   import Cursor from '$lib/components/cursor.svelte';
   import World from '$lib/components/scene/world.svelte';
-  import Animator from '$lib/components/animator/animator.svelte';
-
-  import { isProbablyMobile, entryComplete, contentShift } from '$lib/components/animator/animation-store';
+  import { isProbablyMobile, mousePosition, entryComplete } from '$lib/stores/animation';
 
   let pageIsReady = false;
+
   export let data;
 
-  $: console.log(data);
-
   onMount(() => {
-    if (window.innerWidth < 768) isProbablyMobile.set(true);
+    if (window.innerWidth < 768) {
+      isProbablyMobile.set(true);
+    } else {
+      mousePosition.track();
+    }
+
     pageIsReady = true;
+
+    return () => {
+      if ($mousePosition.tracking) mousePosition.stopTracking();
+    };
   });
 </script>
 
 {#if pageIsReady}
   <World />
-  <Animator />
-
-  <div
-    class="layout"
-    class:freeze={!$entryComplete}
-    style="--shift-x: {$contentShift.x}px; --shift-y: {$contentShift.y}px"
-  >
+  <div class="layout">
     <div class="content-spacer" />
 
-    <main>
+    {#if $entryComplete}
       {#key data.pathname}
-        <slot />
+        <main>
+          <slot />
+        </main>
       {/key}
-    </main>
+    {/if}
   </div>
 
   {#if !$isProbablyMobile}
@@ -54,28 +56,17 @@
   {/if}
 
   <!-- Turn on as needed -->
-  <!-- <Gui /> -->
+  <Gui />
 {/if}
 
 <style>
-  .freeze {
-    width: 100vw;
-    height: 100vh;
-
-    overflow: hidden;
-  }
-
-  .layout.freeze {
-    overflow: unset !important;
-    opacity: 0;
-  }
-
   .layout {
     position: relative;
     z-index: 2;
 
     display: grid;
     grid-template-columns: 47.5vw 1fr;
+    grid-template-areas: 'spacer main';
     align-items: center;
 
     min-height: 100vh;
@@ -85,6 +76,18 @@
   }
 
   main {
+    grid-area: main;
     transform: translate(calc(var(--shift-x)), calc(var(--shift-y)));
+  }
+
+  @media screen and (max-width: 768px) {
+    .layout {
+      display: block;
+    }
+
+    main {
+      padding: 0 1rem;
+      margin-top: 90vw;
+    }
   }
 </style>

@@ -4,7 +4,7 @@
   import { T, Three } from '@threlte/core';
   import { useGltf } from '@threlte/extras';
 
-  import { clockHands, isNight } from '../animator/animation-store';
+  import { isNight, clockHands } from '../../stores/time';
   import LightCone from './light-cone.svelte';
 
   export const ref = new Group();

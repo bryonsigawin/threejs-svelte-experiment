@@ -1,11 +1,12 @@
 <script>
   import { onDestroy } from 'svelte';
 
-  import { T, useFrame } from '@threlte/core';
-  import { Color, VideoTexture } from 'three';
+  import { Color } from 'three';
   import { mapLinear, clamp } from 'three/src/math/MathUtils';
 
-  import { isProbablyMobile, time } from '../animator/animation-store';
+  import { T } from '@threlte/core';
+
+  import { currentTime } from '../../stores/time';
 
   // let texture;
 
@@ -30,7 +31,7 @@
   let lightColorDay = new Color('#f7fdff');
   let lightColor = new Color().lerpColors(lightColorEvening, lightColorDay, 1);
 
-  const unsubTime = time.subscribe(({ hours }) => {
+  const unsubTime = currentTime.subscribe(({ hours }) => {
     const intensityTime = clamp(hours, 5, 20);
     const colorTime = clamp(hours, 16, 17);
 

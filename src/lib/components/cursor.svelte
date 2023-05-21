@@ -1,15 +1,35 @@
 <script>
-  import { cursorScale, cursorPosition } from './animator/animation-store';
+  import { mousePosition } from '$lib/stores/animation';
 
-  let isOverLink = false;
+  import { spring } from 'svelte/motion';
+  import { onDestroy } from 'svelte';
+
+  let started = false;
+  let stiffness = 0.1;
+  let damping = 0.9;
+
+  let cursor = spring({ x: $mousePosition.x, y: $mousePosition.y }, { stiffness: 1, damping: 1 });
+  let scale = spring(0);
+
+  const stopTracking = mousePosition.subscribe(({ x, y }) => {
+    cursor.set({ x, y });
+
+    if (!started && x !== -1) {
+      started = true;
+
+      cursor.damping = damping;
+      cursor.stiffness = stiffness;
+
+      scale.set(1);
+    }
+  });
+
+  onDestroy(() => {
+    stopTracking();
+  });
 </script>
 
-<div
-  class="cursor"
-  class:is-over-link={isOverLink}
-  style="--position-x: {$cursorPosition.current.x}px; --position-y: {$cursorPosition.current
-    .y}px; --scale: {$cursorScale.value}"
-/>
+<div class="cursor" style="--position-x: {$cursor.x}px; --position-y: {$cursor.y}px; --scale: {$scale}" />
 
 <style>
   .cursor {
@@ -26,9 +46,5 @@
     pointer-events: none;
 
     transform: translate(calc(var(--position-x) - 50%), calc(var(--position-y) - 50%)) scale(var(--scale));
-  }
-
-  .is-over-link {
-    background-color: red;
   }
 </style>

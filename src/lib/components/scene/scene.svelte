@@ -1,15 +1,14 @@
 <script>
-  import { T, useThrelte } from '@threlte/core';
-  import { Vector2 } from 'three';
+  import { onDestroy } from 'svelte';
+  import { tweened } from 'svelte/motion';
+  import { quartInOut } from 'svelte/easing';
 
-  import {
-    isProbablyMobile,
-    cameraPan,
-    entryComplete,
-    isNight,
-    worldShift,
-    enableNightLights
-  } from './../animator/animation-store';
+  import { T, useFrame, useThrelte } from '@threlte/core';
+  import { Vector2 } from 'three';
+  import { lerp } from 'three/src/math/MathUtils';
+
+  import { isProbablyMobile, entryComplete, mousePosition } from './../../stores/animation';
+  import { isNight, enableNightLights } from './../../stores/time';
 
   import Elements from './elements.svelte';
   import LightsDay from './lights-day.svelte';
@@ -17,39 +16,43 @@
 
   const isMobile = $isProbablyMobile;
 
-  const initialCameraPosition = {
-    x: isMobile ? -1.6 : 0,
-    y: 2.2,
-    z: 8.5
-  };
-  let cameraPosition = { ...initialCameraPosition };
-
+  const cameraFov = isMobile ? 70 : 30;
   const panAmount = 4;
-  let cameraFov = isMobile ? 70 : 30;
 
-  /**
-   * Pan camera
-   */
-  const unsubcribePanning = cameraPan.subscribe(({ value }) => {
-    cameraPosition.x = initialCameraPosition.x + panAmount * value;
+  const defaultCameraPosition = { x: isMobile ? -1.6 : 0, y: 2.2, z: 8.5 };
+  let cameraPosition = { ...defaultCameraPosition };
+
+  let cameraShift = {
+    amount: { x: 0.2, y: 0.2 },
+    current: { x: panAmount, y: 0 },
+    next: { x: 0, y: 0 }
+  };
+
+  let cameraPan = tweened(panAmount, {
+    duration: 6000,
+    delay: 500,
+    easing: quartInOut
+  });
+
+  cameraPan.set(defaultCameraPosition.x);
+
+  const { stop: stopShifting } = useFrame(() => {
+    let { current, next, amount } = cameraShift;
+    current.x = lerp(current.x, next.x, 0.01);
+    current.y = lerp(current.y, next.y, 0.01);
+
+    next.x = $cameraPan + $mousePosition.normalized.x * amount.x;
+    next.y = $mousePosition.normalized.y * amount.y;
+
+    cameraPosition.x = defaultCameraPosition.x + current.x;
+    cameraPosition.y = defaultCameraPosition.y + current.y;
+
+    cameraShift = cameraShift;
     cameraPosition = cameraPosition;
   });
 
-  /**
-   * Unsubscribe after it's done
-   */
-  $: if ($cameraPan.value === 0) {
-    unsubcribePanning();
-  }
-
-  /**
-   * Enable parallax
-   */
-  $: if (!isMobile && $entryComplete) {
-    worldShift.subscribe(({ x, y }) => {
-      cameraPosition.x = initialCameraPosition.x + x;
-      cameraPosition.y = initialCameraPosition.y + y;
-    });
+  $: if ($cameraPan === 0) {
+    entryComplete.set(true);
   }
 
   $: if (isMobile) {
@@ -63,6 +66,10 @@
       cam.updateProjectionMatrix();
     });
   }
+
+  onDestroy(() => {
+    stopShifting();
+  });
 </script>
 
 <T.PerspectiveCamera fov={cameraFov} position={[...Object.values(cameraPosition)]} makeDefault />
