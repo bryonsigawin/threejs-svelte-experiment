@@ -12,15 +12,25 @@
   import '../styles.css';
 
   import { onMount } from 'svelte';
+  import { lerp } from 'three/src/math/MathUtils';
 
   import Gui from '$lib/components/gui.svelte';
   import Cursor from '$lib/components/cursor.svelte';
   import World from '$lib/components/scene/world.svelte';
+
   import { isProbablyMobile, mousePosition, entryComplete } from '$lib/stores/animation';
 
   let pageIsReady = false;
 
   export let data;
+
+  let layoutShift = {
+    amount: { x: -20, y: 10 },
+    current: { x: 0, y: 0 },
+    next: { x: 0, y: 0 }
+  };
+
+  let raf;
 
   onMount(() => {
     if (window.innerWidth < 768) {
@@ -29,10 +39,27 @@
       mousePosition.track();
     }
 
+    if (!$isProbablyMobile) {
+      raf = requestAnimationFrame(function tick() {
+        let { current, next, amount } = layoutShift;
+
+        current.x = lerp(current.x, next.x, 0.01);
+        current.y = lerp(current.y, next.y, 0.01);
+
+        next.x = $mousePosition.normalized.x * amount.x;
+        next.y = $mousePosition.normalized.y * amount.y;
+
+        layoutShift = layoutShift;
+
+        requestAnimationFrame(tick);
+      });
+    }
+
     pageIsReady = true;
 
     return () => {
       if ($mousePosition.tracking) mousePosition.stopTracking();
+      if (raf) cancelAnimationFrame(raf);
     };
   });
 </script>
@@ -40,7 +67,7 @@
 {#if pageIsReady}
   <World />
 
-  <div class="layout">
+  <div class="layout" style="--shift-x: {layoutShift.current.x}px; --shift-y: {layoutShift.current.y}px">
     <header>
       <!-- <div>it's currently {$currentTime.hours}:{$currentTime.minutes}:{$currentTime.seconds}</div> -->
     </header>
@@ -65,7 +92,7 @@
   {/if}
 
   <!-- Turn on as needed -->
-  <Gui />
+  <!-- <Gui /> -->
 {/if}
 
 <style>
