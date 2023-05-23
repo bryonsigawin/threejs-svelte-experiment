@@ -1,4 +1,6 @@
 <script>
+  import { fade } from 'svelte/transition';
+
   import SplitSentence from '$lib/components/split-sentence.svelte';
 </script>
 
@@ -30,7 +32,9 @@
     />
   </p>
 
-  <a href="/"><SplitSentence sentence="Go back" inStagger={5} inDelay={100} /></a>
+  <div in:fade={{ duration: 400, delay: 800 }} out:fade={{ duration: 400 }}>
+    <a href="/">Go back</a>
+  </div>
 </div>
 
 <style>
