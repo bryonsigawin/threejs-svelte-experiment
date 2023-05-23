@@ -16,7 +16,7 @@
     </h1>
     <h2 class="intro-line-2">
       <SplitSentence
-        sentence="front-end developer with a penchant for ux and motion design."
+        sentence="a front-end developer with a penchant for ux and motion design"
         mode="characters"
         inDuration={600}
         inStagger={7}

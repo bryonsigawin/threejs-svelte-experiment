@@ -4,13 +4,14 @@
   import SplitSentence from '$lib/components/split-sentence.svelte';
 </script>
 
-<div>
+<div class="content">
   <h1>
     <SplitSentence sentence="bit more about me," inStagger={5} />
   </h1>
+
   <p>
     <SplitSentence
-      sentence="I've spent the past 7 years specializing in front-end web development. Beyond writing code, I've also had a hand in the designing the UI, architecting systems, and being the lead maintainer of the codebase."
+      sentence="I've spent the past 7-ish years specializing in front-end web development, and beyond writing code, I've also had a hand in designing UI and UX, architecting systems, and being the lead maintainer of the codebases."
       inStagger={5}
       inDelay={100}
     />
@@ -18,7 +19,7 @@
 
   <p>
     <SplitSentence
-      sentence="Though primarily a dev, I'm a big fan of motion and U/UX design, and am always searching for ways to craft unique experiences with animations and micro-interactions."
+      sentence="A result of having a design education, I'm also a big fan of UI/UX and motion design. I've been known to nitpick over designs and trying to add micro-interactions and animations wherever it makes sense."
       inStagger={5}
       inDelay={200}
     />
@@ -26,9 +27,9 @@
 
   <p>
     <SplitSentence
-      sentence="Outside of work, I like brewing coffee and listening to music for long sessions."
+      sentence="Outside of work, I brew and drink too much coffee, and have spent many hours just staring at walls and listening to music."
       inStagger={5}
-      inDelay={300}
+      inDelay={200}
     />
   </p>
 
@@ -39,7 +40,7 @@
 
 <style>
   div {
-    max-width: 800px;
+    max-width: 700px;
   }
 
   h1 {
