@@ -1,12 +1,13 @@
 import { writable } from 'svelte/store';
 
 export const createTimeTracker = () => {
-  const { subscribe, set, update } = writable({ hours: 0, minutes: 0, seconds: 0 });
+  const { subscribe, set, update } = writable({ full: '', hours: 0, minutes: 0, seconds: 0 });
 
   let ticker = setInterval(function tick() {
     const date = new Date();
 
     set({
+      full: date,
       hours: date.getHours(),
       minutes: date.getMinutes(),
       seconds: date.getSeconds()

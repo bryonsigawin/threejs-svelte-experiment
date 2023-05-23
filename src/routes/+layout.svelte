@@ -12,6 +12,7 @@
   import '../styles.css';
 
   import { onMount } from 'svelte';
+  import { fade } from 'svelte/transition';
 
   import { DefaultLoadingManager } from 'three';
   import { lerp } from 'three/src/math/MathUtils';
@@ -22,6 +23,7 @@
   import Loading from '$lib/components/loading.svelte';
 
   import { isProbablyMobile, mousePosition, entryComplete } from '$lib/stores/animation';
+  import { currentTime } from '$lib/stores/time';
 
   let pageIsReady = false;
   let worldIsReady = false;
@@ -68,6 +70,8 @@
       if (raf) cancelAnimationFrame(raf);
     };
   });
+
+  console.log(data.pathname);
 </script>
 
 <World isReady={worldIsReady} />
@@ -87,12 +91,27 @@
     {/if}
 
     <footer>
-      <p>scrapily built by me as an excuse to play with svelte + three.js + blender.</p>
+      <p>
+        my local time is {new Intl.DateTimeFormat('en-GB', {
+          dateStyle: 'full',
+          timeStyle: 'medium',
+          hour12: true,
+          timeZone: 'Asia/Kuala_Lumpur'
+        }).format($currentTime.full)}
+      </p>
+
+      <p>
+        built by me as an excuse to play with svelte + three.js + blender, gradually iterating since 2023.
+      </p>
     </footer>
   </div>
 
   {#if !$isProbablyMobile}
     <Cursor />
+  {/if}
+
+  {#if data.pathname === '/about' && $isProbablyMobile && $entryComplete}
+    <div class="overlay" transition:fade />
   {/if}
 {:else}
   <Loading />
@@ -143,11 +162,27 @@
     margin-top: auto;
     margin-bottom: 0;
 
+    display: flex;
+    justify-content: space-between;
+
     font-size: 0.7rem;
     font-weight: 200;
     text-align: right;
 
     opacity: 0.5;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: black;
+
+    opacity: 0.7;
   }
 
   @media screen and (max-width: 768px) {
@@ -165,6 +200,7 @@
     }
 
     footer {
+      display: block;
       text-align: center;
     }
   }
