@@ -1,7 +1,7 @@
 import { derived } from 'svelte/store';
 import { mapLinear } from 'three/src/math/MathUtils';
 
-import { createTimeTracker } from './creators/crate-time-tracker';
+import { createTimeTracker } from './creators/create-time-tracker';
 
 export const currentTime = createTimeTracker();
 export const enableNightLights = derived(currentTime, ({ hours }) => hours > 18 || hours < 5);
