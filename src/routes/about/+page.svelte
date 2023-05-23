@@ -29,12 +29,20 @@
     <SplitSentence
       sentence="Outside of work, I brew and drink too much coffee, and have spent many hours just staring at walls and listening to music."
       inStagger={5}
-      inDelay={200}
+      inDelay={300}
     />
   </p>
 
-  <div in:fade={{ duration: 400, delay: 800 }} out:fade={{ duration: 400 }}>
-    <a href="/">Go back</a>
+  <p>
+    <SplitSentence sentence="if you'd like to get in touch, do drop an email @" inStagger={5} inDelay={400} />
+    <a class="email" href="mailto:bryon.sigawin@gmail.com" target="_blank">
+      <SplitSentence sentence="bryon.sigawin@gmail.com" inStagger={5} inDelay={450} />
+      <div class="email-underline" in:fade={{ duration: 200, delay: 800 }} out:fade={{ duration: 200 }} />
+    </a>
+  </p>
+
+  <div in:fade={{ duration: 400, delay: 1000 }} out:fade={{ duration: 400 }}>
+    <a class="back" href="/">Go back</a>
   </div>
 </div>
 
@@ -54,7 +62,28 @@
     line-height: 1.5;
   }
 
-  a {
+  .email {
+    position: relative;
+    color: white;
+  }
+
+  .email-underline {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    border-bottom: 2px solid white;
+
+    transition: 300ms ease transform;
+  }
+
+  .email:hover .email-underline {
+    transform: translateY(-5px);
+  }
+
+  .back {
     display: block;
 
     font-size: 0.95rem;

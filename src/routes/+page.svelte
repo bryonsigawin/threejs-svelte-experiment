@@ -29,6 +29,7 @@
   <div class="page-links" in:fade={{ duration: 400, delay: 800 }} out:fade={{ duration: 400 }}>
     <a class="page-link" href="/about">about</a>
     <a class="page-link" href="/bryon_sigawin_cv_2023.pdf" target="_blank">resume</a>
+    <a class="page-link" href="mailto:bryon.sigawin@gmail.com" target="_blank">get in touch</a>
     <a class="page-link" href="https://www.linkedin.com/in/bryon-sigawin/" target="_blank">linkedin</a>
     <a class="page-link" href="https://github.com/bryonsigawin" target="_blank">github</a>
   </div>
