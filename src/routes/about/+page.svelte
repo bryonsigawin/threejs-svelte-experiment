@@ -10,7 +10,7 @@
     <SplitSentence
       sentence="I've spent the past 7 years specializing in front-end web development. Beyond writing code, I've also had a hand in the designing the UI, architecting systems, and being the lead maintainer of the codebase."
       inStagger={5}
-      inDelay={25}
+      inDelay={100}
     />
   </p>
 
@@ -18,7 +18,7 @@
     <SplitSentence
       sentence="Though primarily a dev, I'm a big fan of motion and U/UX design, and am always searching for ways to craft unique experiences with animations and micro-interactions."
       inStagger={5}
-      inDelay={50}
+      inDelay={200}
     />
   </p>
 
@@ -26,7 +26,7 @@
     <SplitSentence
       sentence="Outside of work, I like brewing coffee and listening to music for long sessions."
       inStagger={5}
-      inDelay={75}
+      inDelay={300}
     />
   </p>
 
@@ -34,6 +34,10 @@
 </div>
 
 <style>
+  div {
+    max-width: 800px;
+  }
+
   h1 {
     font-weight: 200;
     font-style: italic;

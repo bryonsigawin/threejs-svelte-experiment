@@ -30,7 +30,6 @@
 
   let cameraPan = tweened(panAmount, {
     duration: 6000,
-    delay: 500,
     easing: quartInOut
   });
 

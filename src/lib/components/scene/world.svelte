@@ -3,9 +3,21 @@
   import { VSMShadowMap } from 'three';
 
   import Scene from './scene.svelte';
+  import { tweened } from 'svelte/motion';
+
+  export let isReady = false;
+
+  const fadeIn = tweened(0, {
+    duration: 1000,
+    delay: 750
+  });
+
+  $: if (isReady) {
+    fadeIn.set(1);
+  }
 </script>
 
-<div>
+<div style={`opacity: ${$fadeIn};`}>
   <Canvas shadowMapType={VSMShadowMap}>
     <Scene />
   </Canvas>

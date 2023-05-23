@@ -12,15 +12,19 @@
   import '../styles.css';
 
   import { onMount } from 'svelte';
+
+  import { DefaultLoadingManager } from 'three';
   import { lerp } from 'three/src/math/MathUtils';
 
   import Gui from '$lib/components/gui.svelte';
   import Cursor from '$lib/components/cursor.svelte';
   import World from '$lib/components/scene/world.svelte';
+  import Loading from '$lib/components/loading.svelte';
 
   import { isProbablyMobile, mousePosition, entryComplete } from '$lib/stores/animation';
 
   let pageIsReady = false;
+  let worldIsReady = false;
 
   export let data;
 
@@ -31,6 +35,10 @@
   };
 
   let raf;
+
+  DefaultLoadingManager.onLoad = () => {
+    worldIsReady = true;
+  };
 
   onMount(() => {
     if (window.innerWidth < 768) {
@@ -55,8 +63,6 @@
       });
     }
 
-    pageIsReady = true;
-
     return () => {
       if ($mousePosition.tracking) mousePosition.stopTracking();
       if (raf) cancelAnimationFrame(raf);
@@ -64,13 +70,11 @@
   });
 </script>
 
-{#if pageIsReady}
-  <World />
+<World isReady={worldIsReady} />
 
+{#if worldIsReady}
   <div class="layout" style="--shift-x: {layoutShift.current.x}px; --shift-y: {layoutShift.current.y}px">
-    <header>
-      <!-- <div>it's currently {$currentTime.hours}:{$currentTime.minutes}:{$currentTime.seconds}</div> -->
-    </header>
+    <header />
 
     <div class="content-spacer" />
 
@@ -90,10 +94,12 @@
   {#if !$isProbablyMobile}
     <Cursor />
   {/if}
-
-  <!-- Turn on as needed -->
-  <!-- <Gui /> -->
+{:else}
+  <Loading />
 {/if}
+
+<!-- Turn on as needed -->
+<!-- <Gui /> -->
 
 <style>
   .layout {
